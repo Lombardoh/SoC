@@ -1,10 +1,9 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class PlayerInputManager : MonoBehaviour
 {
     public static PlayerInputManager instance;
+    public PlayerManager player;
     PlayerControls playerControls;
 
     [Header("Movement Input")]
@@ -29,30 +28,6 @@ public class PlayerInputManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-        SceneManager.activeSceneChanged += OnSceneChange;
-        instance.enabled = false;
-    }
-    private void OnSceneChange(Scene oldScene, Scene newScene)
-    {
-        if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldSceneIndex())
-        {
-            instance.enabled = true;
-        }
-        else
-        {
-            instance.enabled = false;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        SceneManager.activeSceneChanged -= OnSceneChange;
-    }
-
     private void OnEnable()
     {
         if (playerControls == null)
@@ -71,20 +46,7 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.Disable();
     }
 
-    private void OnApplicationFocus(bool focus)
-    {
-        if(enabled)
-        {
-            if(focus)
-            {
-                playerControls.Enable();
-            }
-            else
-            {
-                playerControls.Disable();
-            }
-        }
-    }
+
 
     private void Update()
     {
@@ -107,6 +69,7 @@ public class PlayerInputManager : MonoBehaviour
             moveAmount = 1;
         }
 
+        player.playerAnimatorManager.UpdateAnimatorMovementParameter(0, moveAmount);
     }
 
     private void HandleCameraMovementInput() 
