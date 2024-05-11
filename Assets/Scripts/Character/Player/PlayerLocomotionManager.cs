@@ -42,11 +42,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        if (PlayerInputManager.instance.moveAmount > 0.5f)
-        {
-            player.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
-        }
-        else if(PlayerInputManager.instance.moveAmount <= 0.5f)
+         if(PlayerInputManager.instance.moveAmount > 0)
         {
             player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
         }

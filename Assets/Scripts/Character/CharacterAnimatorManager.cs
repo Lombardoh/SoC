@@ -15,4 +15,9 @@ public class CharacterAnimatorManager : MonoBehaviour
         character.animator.SetFloat("Horizontal", horizontalValue);
         character.animator.SetFloat("Vertical", verticalValue);
     }
+
+    public void UpdateAnimatorAttackParameter(bool isAttacking)
+    {
+        character.animator.SetBool("isAttacking", isAttacking);
+    }
 }

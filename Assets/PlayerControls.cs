@@ -216,6 +216,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Player Attack"",
+            ""id"": ""53cf6543-dcd6-445a-abea-f3d1c8adabd7"",
+            ""actions"": [
+                {
+                    ""name"": ""Basic Attacks"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8099413-630e-4b31-94f0-5fb5666cbbf9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9cf9f0a8-3b67-48ce-9aea-2b9c148a43f3"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Basic Attacks"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -229,6 +257,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Player Camera
         m_PlayerCamera = asset.FindActionMap("Player Camera", throwIfNotFound: true);
         m_PlayerCamera_Movement = m_PlayerCamera.FindAction("Movement", throwIfNotFound: true);
+        // Player Attack
+        m_PlayerAttack = asset.FindActionMap("Player Attack", throwIfNotFound: true);
+        m_PlayerAttack_BasicAttacks = m_PlayerAttack.FindAction("Basic Attacks", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -424,6 +455,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public PlayerCameraActions @PlayerCamera => new PlayerCameraActions(this);
+
+    // Player Attack
+    private readonly InputActionMap m_PlayerAttack;
+    private List<IPlayerAttackActions> m_PlayerAttackActionsCallbackInterfaces = new List<IPlayerAttackActions>();
+    private readonly InputAction m_PlayerAttack_BasicAttacks;
+    public struct PlayerAttackActions
+    {
+        private @PlayerControls m_Wrapper;
+        public PlayerAttackActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @BasicAttacks => m_Wrapper.m_PlayerAttack_BasicAttacks;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerAttack; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerAttackActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerAttackActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlayerAttackActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerAttackActionsCallbackInterfaces.Add(instance);
+            @BasicAttacks.started += instance.OnBasicAttacks;
+            @BasicAttacks.performed += instance.OnBasicAttacks;
+            @BasicAttacks.canceled += instance.OnBasicAttacks;
+        }
+
+        private void UnregisterCallbacks(IPlayerAttackActions instance)
+        {
+            @BasicAttacks.started -= instance.OnBasicAttacks;
+            @BasicAttacks.performed -= instance.OnBasicAttacks;
+            @BasicAttacks.canceled -= instance.OnBasicAttacks;
+        }
+
+        public void RemoveCallbacks(IPlayerAttackActions instance)
+        {
+            if (m_Wrapper.m_PlayerAttackActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlayerAttackActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlayerAttackActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlayerAttackActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PlayerAttackActions @PlayerAttack => new PlayerAttackActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -435,5 +512,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerCameraActions
     {
         void OnMovement(InputAction.CallbackContext context);
+    }
+    public interface IPlayerAttackActions
+    {
+        void OnBasicAttacks(InputAction.CallbackContext context);
     }
 }

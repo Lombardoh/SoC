@@ -194,6 +194,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Player Attack",
+            "id": "53cf6543-dcd6-445a-abea-f3d1c8adabd7",
+            "actions": [
+                {
+                    "name": "Basic Attacks",
+                    "type": "Button",
+                    "id": "a8099413-630e-4b31-94f0-5fb5666cbbf9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9cf9f0a8-3b67-48ce-9aea-2b9c148a43f3",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Basic Attacks",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

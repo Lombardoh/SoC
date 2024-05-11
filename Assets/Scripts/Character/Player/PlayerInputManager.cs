@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -16,6 +18,8 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] Vector2 cameraInput;
     public float cameraHoritontalInput;
     public float cameraVerticalInput;
+
+    private bool isAttacking = false;
 
     private void Awake()
     {
@@ -36,9 +40,26 @@ public class PlayerInputManager : MonoBehaviour
 
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+            playerControls.PlayerAttack.BasicAttacks.performed += context => performBasicAttack();
+
         }
 
         playerControls.Enable();
+    }
+
+    public void OnAnimationEnd()
+    {
+        // This method will be called when the animation ends
+        Debug.Log("Animation ended");
+    }
+
+    private void performBasicAttack()
+    {
+        isAttacking = !isAttacking;
+        verticalInput = 0;
+        horitontalInput = 0;
+        player.playerAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+        player.playerAnimatorManager.UpdateAnimatorAttackParameter(isAttacking);
     }
 
     private void OnDisable()
@@ -50,8 +71,9 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Update()
     {
-        HandleMovementInput();
         HandleCameraMovementInput();
+        if (isAttacking) return;
+        HandleMovementInput();
     }
 
     private void HandleMovementInput()
