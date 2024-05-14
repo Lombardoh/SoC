@@ -1,16 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovingState : CharacterBaseState
 {
-    public override void EnterState(CharacterStateManager character)
+    public override void OnEnter(CharacterStateManager character)
     {
-        throw new System.NotImplementedException();
+    }
+    
+    public override void OnExit(CharacterStateManager character)
+    {
+        character.player.playerAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
     }
 
-    public override void UpdateState(CharacterStateManager character)
+    public override void Update(CharacterStateManager character)
     {
-        throw new System.NotImplementedException();
+        character.player.playerAnimatorManager.UpdateAnimatorMovementParameter(0, 1);
+        if (PlayerInputManager.instance.moveAmount == 0)
+        {
+            character.SwitchState(character.idleState);
+        }        
+        if (PlayerInputManager.instance.isAttacking == true)
+        {
+            character.SwitchState(character.attackingState);
+        }
     }
 }

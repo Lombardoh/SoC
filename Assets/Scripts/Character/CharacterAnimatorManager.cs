@@ -1,10 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterAnimatorManager : MonoBehaviour
 {
     CharacterManager character;
+
+    private void OnEnable()
+    {
+        AnimatorEvents.OnAnimateJumping += UpdateAnimatorGroundingParameter;
+    }
+
+    private void OnDisable()
+    {
+        AnimatorEvents.OnAnimateJumping -= UpdateAnimatorGroundingParameter;        
+    }
 
     private void Awake()
     {
@@ -19,5 +27,10 @@ public class CharacterAnimatorManager : MonoBehaviour
     public void UpdateAnimatorAttackParameter(bool isAttacking)
     {
         character.animator.SetBool("isAttacking", isAttacking);
+    }    
+    
+    public void UpdateAnimatorGroundingParameter(bool isGrounded)
+    {
+        character.animator.SetBool("isGrounded", isGrounded);
     }
 }

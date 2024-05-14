@@ -2,13 +2,23 @@ using UnityEngine;
 
 public class CharacterIdleState : CharacterBaseState
 {
-    public override void EnterState(CharacterStateManager character)
+    public override void OnEnter(CharacterStateManager character)
     {
-        Debug.Log("idling");
+        character.player.playerAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+    }
+    public override void OnExit(CharacterStateManager character)
+    {
     }
 
-    public override void UpdateState(CharacterStateManager character)
+    public override void Update(CharacterStateManager character)
     {
-        throw new System.NotImplementedException();
+        if (PlayerInputManager.instance.moveAmount > 0)
+        {
+            character.SwitchState(character.movingState);
+        }
+        if(PlayerInputManager.instance.isAttacking == true)
+        {
+            character.SwitchState(character.attackingState);
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class PlayerInputManager : MonoBehaviour
     public float cameraHoritontalInput;
     public float cameraVerticalInput;
 
-    private bool isAttacking = false;
+    public bool isAttacking = false;
 
     private void Awake()
     {
@@ -40,26 +41,12 @@ public class PlayerInputManager : MonoBehaviour
 
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
-            playerControls.PlayerAttack.BasicAttacks.performed += context => performBasicAttack();
+            playerControls.PlayerAttack.BasicAttacks.performed += context => PerformBasicAttack();
+            playerControls.PlayerActions.Jump.performed += context => PerformJump();
 
         }
 
         playerControls.Enable();
-    }
-
-    public void OnAnimationEnd()
-    {
-        // This method will be called when the animation ends
-        Debug.Log("Animation ended");
-    }
-
-    private void performBasicAttack()
-    {
-        isAttacking = !isAttacking;
-        verticalInput = 0;
-        horitontalInput = 0;
-        player.playerAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
-        player.playerAnimatorManager.UpdateAnimatorAttackParameter(isAttacking);
     }
 
     private void OnDisable()
@@ -67,7 +54,14 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.Disable();
     }
 
-
+    private void PerformBasicAttack()
+    {
+        isAttacking = true;
+    }    
+    private void PerformJump()
+    {
+        InputEvents.OnJumpButtonDown?.Invoke();
+    }
 
     private void Update()
     {
@@ -83,15 +77,10 @@ public class PlayerInputManager : MonoBehaviour
 
         moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput + Mathf.Abs(horitontalInput)));
 
-        if( moveAmount <= 0.5 && moveAmount > 0 )
-        {
-            moveAmount = 0.5f;
-        }else if(moveAmount > 0.5 && moveAmount <= 1)
+        if(moveAmount > 0)
         {
             moveAmount = 1;
         }
-
-        player.playerAnimatorManager.UpdateAnimatorMovementParameter(0, moveAmount);
     }
 
     private void HandleCameraMovementInput() 

@@ -1,16 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterAttackingState : CharacterBaseState
 {
-    public override void EnterState(CharacterStateManager character)
+    public UnityEvent onAnimationEndEvent;
+    public override void OnEnter(CharacterStateManager character)
     {
-        throw new System.NotImplementedException();
+        character.player.playerAnimatorManager.UpdateAnimatorAttackParameter(true);
     }
 
-    public override void UpdateState(CharacterStateManager character)
+    public override void OnExit(CharacterStateManager character)
     {
-        throw new System.NotImplementedException();
+        character.player.playerAnimatorManager.UpdateAnimatorAttackParameter(false);
     }
+
+    public override void Update(CharacterStateManager character)
+    {
+        if (PlayerInputManager.instance.isAttacking == false)
+        {
+            character.SwitchState(character.idleState);
+        }
+    }
+
 }
