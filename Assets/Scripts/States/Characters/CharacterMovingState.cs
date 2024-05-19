@@ -1,26 +1,17 @@
-using UnityEngine;
-
 public class CharacterMovingState : CharacterBaseState
 {
-    public override void OnEnter(CharacterStateManager character)
+    public override void OnEnter(CharacterManager character)
     {
+        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 1);
     }
     
-    public override void OnExit(CharacterStateManager character)
+    public override void OnExit(CharacterManager character)
     {
-        character.player.playerAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
     }
 
-    public override void Update(CharacterStateManager character)
+    public override void Update(CharacterManager character)
     {
-        character.player.playerAnimatorManager.UpdateAnimatorMovementParameter(0, 1);
-        if (PlayerInputManager.instance.moveAmount == 0)
-        {
-            character.SwitchState(character.idleState);
-        }        
-        if (PlayerInputManager.instance.isAttacking == true)
-        {
-            character.SwitchState(character.attackingState);
-        }
+        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 1);
     }
 }

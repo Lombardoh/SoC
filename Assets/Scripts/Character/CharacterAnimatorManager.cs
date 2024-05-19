@@ -2,35 +2,29 @@ using UnityEngine;
 
 public class CharacterAnimatorManager : MonoBehaviour
 {
-    CharacterManager character;
-
-    private void OnEnable()
-    {
-        AnimatorEvents.OnAnimateJumping += UpdateAnimatorGroundingParameter;
-    }
-
-    private void OnDisable()
-    {
-        AnimatorEvents.OnAnimateJumping -= UpdateAnimatorGroundingParameter;        
-    }
+    public Animator animator;
 
     private void Awake()
     {
-        character = GetComponent<CharacterManager>();
+        animator = GetComponent<Animator>();
     }
     public void UpdateAnimatorMovementParameter(float horizontalValue, float verticalValue)
     {
-        character.animator.SetFloat("Horizontal", horizontalValue);
-        character.animator.SetFloat("Vertical", verticalValue);
+        animator.SetFloat("Horizontal", horizontalValue);
+        animator.SetFloat("Vertical", verticalValue);
     }
 
     public void UpdateAnimatorAttackParameter(bool isAttacking)
     {
-        character.animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isAttacking", isAttacking);
     }    
     
     public void UpdateAnimatorGroundingParameter(bool isGrounded)
     {
-        character.animator.SetBool("isGrounded", isGrounded);
+        animator.SetBool("isGrounded", isGrounded);
+    }    
+    public void UpdateAnimatorWasHurtParameter(bool wasHurt)
+    {
+        animator.SetBool("Hurt", wasHurt);
     }
 }

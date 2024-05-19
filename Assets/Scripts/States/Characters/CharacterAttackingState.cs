@@ -1,25 +1,18 @@
-using UnityEngine;
-using UnityEngine.Events;
-
 public class CharacterAttackingState : CharacterBaseState
 {
-    public UnityEvent onAnimationEndEvent;
-    public override void OnEnter(CharacterStateManager character)
+    public override void OnEnter(CharacterManager character)
     {
-        character.player.playerAnimatorManager.UpdateAnimatorAttackParameter(true);
+        character.characterAnimatorManager.UpdateAnimatorAttackParameter(true);
     }
 
-    public override void OnExit(CharacterStateManager character)
+    public override void OnExit(CharacterManager character)
     {
-        character.player.playerAnimatorManager.UpdateAnimatorAttackParameter(false);
+        character.characterAnimatorManager.UpdateAnimatorAttackParameter(false);
+        InputEvents.OnSetIdle?.Invoke();
     }
 
-    public override void Update(CharacterStateManager character)
+    public override void Update(CharacterManager character)
     {
-        if (PlayerInputManager.instance.isAttacking == false)
-        {
-            character.SwitchState(character.idleState);
-        }
-    }
 
+    }
 }

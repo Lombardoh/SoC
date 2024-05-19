@@ -1,8 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
-
 public class PlayerInputManager : MonoBehaviour
 {
     public static PlayerInputManager instance;
@@ -20,7 +17,7 @@ public class PlayerInputManager : MonoBehaviour
     public float cameraHoritontalInput;
     public float cameraVerticalInput;
 
-    public bool isAttacking = false;
+    private bool isAttacking = false;
 
     private void Awake()
     {
@@ -46,22 +43,31 @@ public class PlayerInputManager : MonoBehaviour
 
         }
 
+        InputEvents.OnSetIdle += setIdle;
+
         playerControls.Enable();
     }
 
     private void OnDisable()
     {
+        InputEvents.OnSetIdle -= setIdle;
         playerControls.Disable();
     }
 
+    private void setIdle()
+    {
+        isAttacking = false;
+    }
     private void PerformBasicAttack()
     {
         isAttacking = true;
-    }    
+        player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Attacking);
+    }      
+    
     private void PerformJump()
     {
-        InputEvents.OnJumpButtonDown?.Invoke();
-    }
+        player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Jumping);
+    }    
 
     private void Update()
     {
@@ -75,12 +81,17 @@ public class PlayerInputManager : MonoBehaviour
         verticalInput = movementInput.y;
         horitontalInput = movementInput.x;
 
-        moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput + Mathf.Abs(horitontalInput)));
+        moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horitontalInput));
+
+        if(!player.playerLocomotionManager.IsGrounded) { return; }
 
         if(moveAmount > 0)
         {
             moveAmount = 1;
+            player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Moving);
+            return;
         }
+        player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
     }
 
     private void HandleCameraMovementInput() 

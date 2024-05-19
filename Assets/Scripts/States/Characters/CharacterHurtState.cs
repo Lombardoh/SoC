@@ -1,4 +1,4 @@
-public class CharacterIdleState : CharacterBaseState
+public class CharacterHurtState : CharacterBaseState
 {
     public override void OnEnter(CharacterManager character)
     {

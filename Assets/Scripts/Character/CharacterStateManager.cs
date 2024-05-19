@@ -2,48 +2,69 @@ using UnityEngine;
 
 public class CharacterStateManager : MonoBehaviour
 {
-    public CharacterBaseState currentState;
-    public CharacterIdleState idleState = new();
-    public CharacterAttackingState attackingState = new();
-    public CharacterMovingState movingState  = new();
-    public PlayerManager player;
-    public GameObject handHitbox;
+    private  CharacterManager characterManager;
+
+    public string currentStateString = string.Empty;
+
+    private CharacterBaseState currentState;
+    private readonly CharacterIdleState idleState = new();
+    private readonly CharacterMovingState movingState  = new();
+    private readonly CharacterHurtState hurtState = new();
+    private readonly CharacterAttackingState attackingState = new();
+    private readonly CharacterJumpingState jumpingState = new();
+
+    public CharacterBaseState CurrentState
+    {
+        get { return currentState; }
+        set { currentState = value; }
+    }
 
     private void Awake()
     {
-        player = GetComponent<PlayerManager>();
+        characterManager = GetComponent<CharacterManager>();
     }
     void Start()
     {
         currentState = idleState;
-        currentState.OnEnter(this);
+        currentState.OnEnter(characterManager);
     }
 
     void Update()
     {
-        currentState.Update(this);
+        currentState.Update(characterManager);
     }
 
+    public void OnStateChangeRequested(CharacterStateEnum newState)
+    {
+        currentStateString = newState.ToString();
+        switch (newState)
+        {
+            case CharacterStateEnum.Idle:
+                SwitchState(idleState);
+                break;
+            case CharacterStateEnum.Hurt:
+                SwitchState(hurtState);
+                break;
+            case CharacterStateEnum.Attacking:
+                SwitchState(attackingState);
+                break;
+            case CharacterStateEnum.Moving:
+                SwitchState(movingState);
+                break;
+            case CharacterStateEnum.Jumping:
+                SwitchState(jumpingState);
+                break;
+        }
+    }
     public void SwitchState(CharacterBaseState state)
     {
+        currentState.OnExit(characterManager);
         currentState = state;
-        state.OnEnter(this);
+        state.OnEnter(characterManager);
     }
 
     public void ForceIdleState()
     {
-        currentState.OnExit(this);
-        PlayerInputManager.instance.isAttacking = false;
-        currentState = idleState;
-        idleState.OnEnter(this);
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other);
-    }
-
-    public void takeDamage()
-    {
-
+        OnStateChangeRequested(CharacterStateEnum.Idle);
     }
 }
