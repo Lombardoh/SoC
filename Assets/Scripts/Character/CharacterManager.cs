@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour, ICharacterManager
+public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable
 {
     public CharacterController characterController;
     public CharacterAnimatorManager characterAnimatorManager;
@@ -30,7 +30,7 @@ public class CharacterManager : MonoBehaviour, ICharacterManager
     {
         if (other == null) return;
 
-        if (other.TryGetComponent<ICharacterManager>(out var characterManager))
+        if (other.TryGetComponent<IDamageable>(out var characterManager))
         {
             characterManager.TakeDamage();
         }
@@ -38,6 +38,6 @@ public class CharacterManager : MonoBehaviour, ICharacterManager
 
     public void TakeDamage()
     {
-        characterAnimatorManager.UpdateAnimatorWasHurtParameter(true);
+        characterStateManager.OnStateChangeRequested(CharacterStateEnum.Hurt);
     }
 }

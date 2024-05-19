@@ -40,32 +40,40 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
             playerControls.PlayerAttack.BasicAttacks.performed += context => PerformBasicAttack();
             playerControls.PlayerActions.Jump.performed += context => PerformJump();
-
+            playerControls.PlayerActions.Walk.started += context => StartWalking(true);
+            playerControls.PlayerActions.Walk.canceled += context => StartWalking(false);
         }
 
-        InputEvents.OnSetIdle += setIdle;
+        InputEvents.OnSetIdle += SetIdle;
 
         playerControls.Enable();
     }
 
     private void OnDisable()
     {
-        InputEvents.OnSetIdle -= setIdle;
+        InputEvents.OnSetIdle -= SetIdle;
         playerControls.Disable();
     }
 
-    private void setIdle()
+    private void SetIdle()
     {
         isAttacking = false;
     }
     private void PerformBasicAttack()
     {
+        if (isAttacking) { return; }
         isAttacking = true;
         player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Attacking);
     }      
     
+    private void StartWalking(bool newValue)
+    {
+        player.characterLocomotionManager.IsWalking = newValue;
+    }      
+    
     private void PerformJump()
     {
+        if (isAttacking || !player.characterLocomotionManager.IsGrounded) { return; }
         player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Jumping);
     }    
 
@@ -85,10 +93,17 @@ public class PlayerInputManager : MonoBehaviour
 
         if(!player.playerLocomotionManager.IsGrounded) { return; }
 
+        if(player.characterLocomotionManager.IsWalking && moveAmount > 0)
+        {
+            moveAmount = 1;
+            player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.walking);
+            return;
+        }
+
         if(moveAmount > 0)
         {
             moveAmount = 1;
-            player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Moving);
+            player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.running);
             return;
         }
         player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);

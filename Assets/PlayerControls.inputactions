@@ -133,7 +133,7 @@
             "id": "62f43f73-b7bb-451c-9d6b-3e3de7d6d90d",
             "actions": [
                 {
-                    "name": "B",
+                    "name": "Walk",
                     "type": "Button",
                     "id": "8473c2b9-6588-41c7-8e55-1bba30e41bbc",
                     "expectedControlType": "Button",
@@ -159,7 +159,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "B",
+                    "action": "Walk",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -170,7 +170,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "B",
+                    "action": "Walk",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

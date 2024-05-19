@@ -3,6 +3,7 @@ public enum CharacterStateEnum
     Idle,
     Hurt,
     Attacking,
-    Moving,
+    running,
+    walking,
     Jumping
 }

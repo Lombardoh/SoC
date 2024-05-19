@@ -9,9 +9,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     public float moveAmount;
 
     private Vector3 targetRotationDirection = Vector3.zero;
-    [SerializeField] float walkingSpeed = 2;
-    [SerializeField] float runningSpeed = 5;
-    [SerializeField] float rotationSpeed = 15;
+
 
     protected override void Awake()
     {
@@ -35,13 +33,11 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundDistance);
     }
 
-
     public void GetVerticalAndHorizontalMovement()
     {
         verticalMovement = PlayerInputManager.instance.verticalInput;
         horizontalMovement = PlayerInputManager.instance.horitontalInput;
     }    
-   
     public void HandleAiredMovement()
     {
         moveDirection.y -= gravityForce;
@@ -57,7 +53,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
          if(PlayerInputManager.instance.moveAmount > 0)
         {
-            player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
+            player.characterController.Move(Time.deltaTime * CurrentSpeed * moveDirection);
         }
     }
     private void HandleRotation()

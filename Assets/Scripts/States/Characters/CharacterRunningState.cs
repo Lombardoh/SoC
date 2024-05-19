@@ -1,4 +1,4 @@
-public class CharacterMovingState : CharacterBaseState
+public class CharacterRunningState : CharacterBaseState
 {
     public override void OnEnter(CharacterManager character)
     {
@@ -12,6 +12,6 @@ public class CharacterMovingState : CharacterBaseState
 
     public override void Update(CharacterManager character)
     {
-        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 1);
+        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 0.5f);
     }
 }
