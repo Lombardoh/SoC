@@ -6237,6 +6237,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1473537982791792096, guid: a99b8cf7e70585440937aa1dc135024e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2121258952}
+    - targetCorrespondingSourceObject: {fileID: 1473537982791792096, guid: a99b8cf7e70585440937aa1dc135024e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2121258956}
   m_SourcePrefab: {fileID: 100100000, guid: a99b8cf7e70585440937aa1dc135024e, type: 3}
 --- !u!1 &1181698651
 GameObject:
@@ -10525,7 +10528,35 @@ MonoBehaviour:
   characterAnimatorManager: {fileID: 0}
   characterLocomotionManager: {fileID: 0}
   characterStateManager: {fileID: 0}
+  target: {fileID: 0}
   handHitbox: {fileID: 0}
+--- !u!114 &2121258956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121258937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d218289c7d7fa4aba55e1df3be8146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundCheckTransform: {fileID: 981292264}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundDistance: 0.1
+  jumpForce: 20
+  gravityForce: 9.8
+  isGrounded: 0
+  characterController: {fileID: 0}
+  character: {fileID: 0}
+  walkingSpeed: 2
+  runningSpeed: 5
+  rotationSpeed: 15
+  currentSpeed: 0
+  isWalking: 0
 --- !u!1001 &234575149426909847
 PrefabInstance:
   m_ObjectHideFlags: 0
