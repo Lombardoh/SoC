@@ -76,9 +76,6 @@ PrefabInstance:
       addedObject: {fileID: 4930020826865381211}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6127782353303419482}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 81bb9eea30387e442899949a80011e55, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7991956783753634987}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       insertIndex: -1
@@ -102,8 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 0}
-  animator: {fileID: 0}
-  playerAnimatorManager: {fileID: 0}
+  characterAnimatorManager: {fileID: 0}
+  characterLocomotionManager: {fileID: 0}
+  characterStateManager: {fileID: 0}
+  handHitbox: {fileID: 0}
 --- !u!143 &4930020826865381211
 CharacterController:
   m_ObjectHideFlags: 0
@@ -130,18 +129,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &6127782353303419482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1812865534640860973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8417bc516649e894c98f44fe1f0c8618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7991956783753634987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,12 +141,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b6a659a784f1ee41b59f48974aa7a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  verticalMovement: 0
-  horizontalMovement: 0
-  moveAmount: 0
+  groundCheckTransform: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundDistance: 0.1
+  jumpForce: 20
+  gravityForce: 9.8
+  isGrounded: 0
+  characterController: {fileID: 0}
+  character: {fileID: 0}
   walkingSpeed: 2
   runningSpeed: 5
   rotationSpeed: 15
+  currentSpeed: 0
+  isWalking: 0
+  verticalMovement: 0
+  horizontalMovement: 0
+  moveAmount: 0
 --- !u!114 &3148211313768065759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,3 +171,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d234638a4f447604ca64267cd18d4e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentStateString: 

@@ -91,7 +91,7 @@ public class PlayerInputManager : MonoBehaviour
 
         moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horitontalInput));
 
-        if(!player.playerLocomotionManager.IsGrounded) { return; }
+        if(!player.characterLocomotionManager.IsGrounded) { return; }
 
         if(player.characterLocomotionManager.IsWalking && moveAmount > 0)
         {

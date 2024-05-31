@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CharacterStateManager : MonoBehaviour
 {
-    private  CharacterManager characterManager;
+    private CharacterManager characterManager;
 
     public string currentStateString = string.Empty;
 
@@ -13,6 +13,7 @@ public class CharacterStateManager : MonoBehaviour
     private readonly CharacterHurtState hurtState = new();
     private readonly CharacterAttackingState attackingState = new();
     private readonly CharacterJumpingState jumpingState = new();
+    private readonly CharacterFollowState followState = new();
 
     public CharacterBaseState CurrentState
     {
@@ -23,10 +24,11 @@ public class CharacterStateManager : MonoBehaviour
     private void Awake()
     {
         characterManager = GetComponent<CharacterManager>();
-    }
-    void Start()
-    {
         currentState = idleState;
+    }
+
+    private void Start()
+    {
         currentState.OnEnter(characterManager);
     }
 
@@ -57,6 +59,9 @@ public class CharacterStateManager : MonoBehaviour
                 break;
             case CharacterStateEnum.Jumping:
                 SwitchState(jumpingState);
+                break;            
+            case CharacterStateEnum.Following:
+                SwitchState(followState);
                 break;
         }
     }

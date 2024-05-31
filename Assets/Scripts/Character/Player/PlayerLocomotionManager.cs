@@ -16,8 +16,9 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         base.Awake();
         player = GetComponent<PlayerManager>();
     }
-    public void HandleAllMovement()
+    public override void HandleAllMovement()
     {
+        base.HandleAllMovement();
         HandleRotation();
         if (!CheckGrounded()) 
         {

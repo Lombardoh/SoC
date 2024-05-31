@@ -91,4 +91,19 @@ public class CharacterLocomotionManager : MonoBehaviour
         IsGrounded = Physics.Raycast(transform.position, Vector3.down, groundDistance, groundLayer);
         return IsGrounded;
     }
+    public virtual void HandleAllMovement()
+    {
+        RotateTowards();
+    }
+
+    public virtual void RotateTowards()
+    {
+        Debug.Log("Here");
+        if (character.target != null)
+        {
+            Vector3 direction = character.target.transform.position - transform.position;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = rotation;
+        }
+    }
 }

@@ -5,5 +5,6 @@ public enum CharacterStateEnum
     Attacking,
     running,
     walking,
-    Jumping
+    Jumping,
+    Following
 }

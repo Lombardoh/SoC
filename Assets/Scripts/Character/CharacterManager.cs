@@ -6,6 +6,7 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable
     public CharacterAnimatorManager characterAnimatorManager;
     public CharacterLocomotionManager characterLocomotionManager;
     public CharacterStateManager characterStateManager;
+    public Transform target;
     public GameObject handHitbox;
 
     protected virtual void Awake()
@@ -16,24 +17,19 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable
         characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
     }
 
-    protected virtual void Update()
+    protected virtual void Start()
     {
 
+    }
+
+    protected virtual void Update()
+    {
+        characterLocomotionManager.HandleAllMovement();
     }
 
     protected virtual void LateUpdate()
     {
 
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other == null) return;
-
-        if (other.TryGetComponent<IDamageable>(out var characterManager))
-        {
-            characterManager.TakeDamage();
-        }
     }
 
     public void TakeDamage()
