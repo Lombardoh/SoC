@@ -9,8 +9,6 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     public float moveAmount;
 
     private Vector3 targetRotationDirection = Vector3.zero;
-
-
     protected override void Awake()
     {
         base.Awake();

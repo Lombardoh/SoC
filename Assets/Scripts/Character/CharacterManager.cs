@@ -19,7 +19,7 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable
 
     protected virtual void Start()
     {
-
+        QualitySettings.vSyncCount = 1;
     }
 
     protected virtual void Update()

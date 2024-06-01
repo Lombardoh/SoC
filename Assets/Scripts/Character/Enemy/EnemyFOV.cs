@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class EnemyFOV : MonoBehaviour
 {
@@ -46,6 +47,7 @@ public class EnemyFOV : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
+                    if (target && enemy.characterStateManager.CurrentStateType == CharacterStateEnum.Following) { return; }
                     enemy.target = target;
                     enemy.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Following);
                 }
@@ -56,11 +58,15 @@ public class EnemyFOV : MonoBehaviour
             }
             else
             {
-                enemy.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
+                //inside the sphere but outside vision range
+                enemy.target = null;
+                enemy.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);                
             }
         }
         else
         {
+            //outside the sphere
+            enemy.target = null;
             enemy.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
         }
     }

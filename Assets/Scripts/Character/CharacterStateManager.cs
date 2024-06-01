@@ -5,6 +5,7 @@ public class CharacterStateManager : MonoBehaviour
     private CharacterManager characterManager;
 
     public string currentStateString = string.Empty;
+    private CharacterStateEnum currentStateType = CharacterStateEnum.Idle;
 
     private CharacterBaseState currentState;
     private readonly CharacterIdleState idleState = new();
@@ -19,6 +20,11 @@ public class CharacterStateManager : MonoBehaviour
     {
         get { return currentState; }
         set { currentState = value; }
+    }    
+    public CharacterStateEnum CurrentStateType
+    {
+        get { return currentStateType; }
+        set { currentStateType = value; }
     }
 
     private void Awake()
@@ -40,6 +46,7 @@ public class CharacterStateManager : MonoBehaviour
     public void OnStateChangeRequested(CharacterStateEnum newState)
     {
         currentStateString = newState.ToString();
+        CurrentStateType = newState;
         switch (newState)
         {
             case CharacterStateEnum.Idle:

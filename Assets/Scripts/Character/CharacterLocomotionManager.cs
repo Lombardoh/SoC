@@ -98,7 +98,6 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     public virtual void RotateTowards()
     {
-        Debug.Log("Here");
         if (character.target != null)
         {
             Vector3 direction = character.target.transform.position - transform.position;

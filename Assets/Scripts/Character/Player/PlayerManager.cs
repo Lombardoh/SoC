@@ -6,11 +6,6 @@ public class PlayerManager : CharacterManager
         characterLocomotionManager = GetComponent<PlayerLocomotionManager>();
     }
 
-    protected override void Update()
-    {
-        characterLocomotionManager.HandleAllMovement();
-    }
-
     protected override void LateUpdate()
     {
         PlayerCamera.Instance.HandleAllCameraActions();
