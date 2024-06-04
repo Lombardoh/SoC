@@ -11,6 +11,10 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
     private void Awake()
     {
         city = new(20, 1);
+    }
+
+    private void Start()
+    {
         SubscribeToTicks(TickTime.Large);
     }
 

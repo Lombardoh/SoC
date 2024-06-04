@@ -4,7 +4,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class EnemyFOV : MonoBehaviour
 {
-    private EnemyManager enemy;
+    private NPCManager enemy;
     public float viewRadius;
     [Range(0, 360)]
     public float viewAngle;
@@ -15,7 +15,7 @@ public class EnemyFOV : MonoBehaviour
     public GameObject player;
     private void Awake()
     {
-        enemy = GetComponent<EnemyManager>();
+        enemy = GetComponent<NPCManager>();
     }
     void Start()
     {
