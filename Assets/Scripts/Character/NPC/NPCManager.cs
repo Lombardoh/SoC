@@ -7,6 +7,5 @@ public class NPCManager : CharacterManager
 
     protected override void Start()
     {
-        characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
     }
 }

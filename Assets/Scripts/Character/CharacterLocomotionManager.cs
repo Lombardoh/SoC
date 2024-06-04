@@ -60,7 +60,7 @@ public class CharacterLocomotionManager : MonoBehaviour
     {
         if(newValue == true)
         {
-            character.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
+            //character.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
             moveDirection.y = 0;
         }
     }    
@@ -102,7 +102,7 @@ public class CharacterLocomotionManager : MonoBehaviour
         {
             Vector3 direction = character.target.transform.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
-            transform.rotation = rotation;
+            character.transform.rotation = rotation;
         }
     }
 }

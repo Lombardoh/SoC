@@ -10,8 +10,11 @@ public class UnitsManager : MonoBehaviour
 
     private void Start()
     {
-        GameObject unit = Instantiate(unitPrefab);
+        GameObject unit = Instantiate(unitPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         unit.transform.position = spawnGame.transform.position;
+        CharacterManager character = unit.GetComponent<CharacterManager>();
+        character.target = spawnGame.transform;
         units.Add(unit);
+        character.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Following);
     }
 }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public abstract class CharacterBaseState
 {
     public abstract void OnEnter(CharacterManager character);
