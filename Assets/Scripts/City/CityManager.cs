@@ -8,6 +8,22 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
     public GameObject panel;
     public TextMeshProUGUI resources;
     private float growPopulation = 0;
+
+    private void OnEnable()
+    {
+        UnitEvents.OnCheckPopulation += (callback) => callback(CheckPopulation());
+    }
+
+    private void OnDisable()
+    {
+        UnitEvents.OnCheckPopulation -= (callback) => callback(CheckPopulation());
+    }
+
+    private int CheckPopulation()
+    {
+        return city.Population;
+    }
+
     private void Awake()
     {
         city = new(20, 1);
@@ -37,7 +53,7 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
     public void OnTicked()
     {
         growPopulation += city.Growth;
-        if (growPopulation > 10) 
+        if (growPopulation > Constants.populationGrowThreshold) 
         {
             city.Population += 1;
             growPopulation = 0;

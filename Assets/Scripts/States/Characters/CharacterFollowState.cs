@@ -1,5 +1,4 @@
 using Pathfinding;
-using System.Threading;
 using UnityEngine;
 
 public class CharacterFollowState : CharacterBaseState
@@ -10,7 +9,11 @@ public class CharacterFollowState : CharacterBaseState
 
     public override void OnEnter(CharacterManager character)
     {
-        
+        if (character.target == null)
+        {
+            character.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
+            return;
+        }
         Seeker seeker = character.GetComponent<Seeker>();
         seeker.StartPath(character.transform.position, character.target.position, (path) => OnPathComplete(path, character));
 
