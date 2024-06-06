@@ -8,7 +8,6 @@ public class CharacterStateManager : MonoBehaviour
     private CharacterStateEnum currentStateType = CharacterStateEnum.Idle;
 
     private CharacterBaseState currentState;
-
     public CharacterBaseState CurrentState
     {
         get { return currentState; }
@@ -28,7 +27,7 @@ public class CharacterStateManager : MonoBehaviour
 
     private void Start()
     {
-        OnStateChangeRequested(CharacterStateEnum.Following);
+        OnStateChangeRequested(CharacterStateEnum.Idle);
     }
 
     void Update()
@@ -45,8 +44,6 @@ public class CharacterStateManager : MonoBehaviour
             currentState.OnExit(characterManager);
         }
         CurrentState = StateFactory.CreateState(newState);
-        Debug.Log(currentStateString);
-        Debug.Log(CurrentState);
         CurrentState.OnEnter(characterManager);
     }
 }

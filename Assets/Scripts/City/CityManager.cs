@@ -45,4 +45,14 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
             ResourceEvents.UpdatePopulation?.Invoke(1);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other == null) return;
+
+        if (other.TryGetComponent<IWorkable>(out var characterManager))
+        {
+            characterManager.UnloadCargo();
+        }
+    }
 }

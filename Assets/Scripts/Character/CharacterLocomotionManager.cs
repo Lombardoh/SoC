@@ -98,9 +98,9 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     public virtual void RotateTowards()
     {
-        if (character.target != null)
+        if (character.nextPathPoint != null)
         {
-            Vector3 direction = character.target.transform.position - transform.position;
+            Vector3 direction = character.nextPathPoint - transform.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
             character.transform.rotation = rotation;
         }

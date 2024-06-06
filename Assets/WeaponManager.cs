@@ -1,7 +1,8 @@
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
-{    private void OnTriggerEnter(Collider other)
+{    
+    private void OnTriggerEnter(Collider other)
     {
         if (other == null) return;
 
