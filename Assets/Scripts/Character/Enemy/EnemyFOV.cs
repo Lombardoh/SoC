@@ -48,7 +48,8 @@ public class EnemyFOV : MonoBehaviour
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
                     if (target && enemy.characterStateManager.CurrentStateType == CharacterStateEnum.Following) { return; }
-                    enemy.target = target;
+                    //this needs to be reworked
+                    //enemy.target = (GameObject)target;
                     enemy.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Following);
                 }
                 else

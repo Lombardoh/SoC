@@ -5,7 +5,7 @@ public class CharacterFollowState : CharacterBaseState
 {
     private int currentWaypoint;
     private Path path;
-    private readonly int changeWaypointDistance = 3;
+    private readonly int changeWaypointDistance = 2;
 
     public override void OnEnter(CharacterManager character)
     {
@@ -15,7 +15,7 @@ public class CharacterFollowState : CharacterBaseState
             return;
         }
         Seeker seeker = character.GetComponent<Seeker>();
-        seeker.StartPath(character.transform.position, character.target.position, (path) => OnPathComplete(path, character));
+        seeker.StartPath(character.transform.position, character.target.transform.position, (path) => OnPathComplete(path, character));
 
         character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 0.5f);
     }
@@ -35,6 +35,12 @@ public class CharacterFollowState : CharacterBaseState
     public override void Update(CharacterManager character)
     {
         if (path == null) { return; }
+
+        if (currentWaypoint >= path.vectorPath.Count - 1)
+        {
+            character.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Working);
+            return;
+        }
 
         float distanceToWaypoint;
         distanceToWaypoint = Vector3.Distance(character.transform.position, path.vectorPath[currentWaypoint]);

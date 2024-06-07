@@ -48,6 +48,11 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
     public void SubscribeToTicks(TickTime tickTime)
     {
         TimeEvents.OnRegisterTickListenerRequested.Invoke(this, tickTime);
+    }    
+    
+    public void UnsubscribeToTicks(TickTime tickTime)
+    {
+        TimeEvents.OnRegisterTickListenerRequested.Invoke(this, tickTime);
     }
 
     public void OnTicked()

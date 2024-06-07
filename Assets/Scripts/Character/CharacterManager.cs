@@ -7,10 +7,9 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     public CharacterLocomotionManager characterLocomotionManager;
     public CharacterStateManager characterStateManager;
 
-    public Transform target;
+    public GameObject target;
+    public GameObject city;
     public Vector3 nextPathPoint;
-    public Transform city;
-    public Transform rock;
     
     public int inventory;
     public int capacity = 10;
@@ -27,6 +26,8 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
 
     protected virtual void Start()
     {
+        Debug.Log(GameObject.FindGameObjectWithTag("City"));
+        city = GameObject.FindGameObjectWithTag("City");
         QualitySettings.vSyncCount = 1;
     }
 
@@ -53,7 +54,6 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     {
         inventory = 0;
         resourceType = ResourceType.nothing;
-        target = rock;
     }
 
     public void SubscribeToTicks(TickTime tickTime)

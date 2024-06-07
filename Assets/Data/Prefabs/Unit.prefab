@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.033034086
+      value: -4.8266993
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.99
+      value: -10.524114
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_LocalRotation.w
@@ -135,7 +135,11 @@ MonoBehaviour:
   characterLocomotionManager: {fileID: 0}
   characterStateManager: {fileID: 0}
   target: {fileID: 0}
-  handHitbox: {fileID: 0}
+  city: {fileID: 0}
+  nextPathPoint: {x: 0, y: 0, z: 0}
+  inventory: 0
+  capacity: 10
+  resourceType: 0
 --- !u!114 &65359509280839641
 MonoBehaviour:
   m_ObjectHideFlags: 0

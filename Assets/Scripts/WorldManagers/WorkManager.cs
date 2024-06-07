@@ -14,9 +14,16 @@ public class WorkManager : MonoBehaviour
         WorkEvents.ChangeWorkingAmount -= ChangeWorkingAmount;
     }
 
-    public void ChangeWorkingAmount(WorkType work, ActionType action)
+    private  void ChangeWorkingAmount(WorkType work, ActionType action)
     {
-        UnitEvents.OnRequestUnit?.Invoke();
+        UnitEvents.OnRequestUnit?.Invoke((unit) => OnUnitReceived(unit, work));
     }
 
+    private void OnUnitReceived(CharacterManager unit, WorkType work)
+    {
+        if (unit == null) {return; }
+        units.Add(unit);
+        unit.target = UnitUtils.FindClosestTarget(unit.transform, TagType.Tree);
+        unit.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Following);
+    }
 }

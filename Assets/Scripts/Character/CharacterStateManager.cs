@@ -25,11 +25,6 @@ public class CharacterStateManager : MonoBehaviour
         
     }
 
-    private void Start()
-    {
-        OnStateChangeRequested(CharacterStateEnum.Idle);
-    }
-
     void Update()
     {
         currentState.Update(characterManager);

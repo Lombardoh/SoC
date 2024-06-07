@@ -17,6 +17,11 @@ public class CharacterAnimatorManager : MonoBehaviour
     public void UpdateAnimatorAttackParameter(bool isAttacking)
     {
         animator.SetBool("isAttacking", isAttacking);
+    }       
+    
+    public void UpdateAnimatorWorkingParameter(bool isWoking)
+    {
+        animator.SetBool("Working", isWoking);
     }    
     
     public void UpdateAnimatorGroundingParameter(bool isGrounded)

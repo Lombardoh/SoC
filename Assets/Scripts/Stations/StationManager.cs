@@ -1,21 +1,33 @@
 using UnityEngine;
 
-public class StationManager : MonoBehaviour
+public class StationManager : MonoBehaviour, ITickListener
 {
     private Station station;
-
+    [SerializeField] private ResourceType resourceType;
+    [SerializeField] private int resourceAmount;
     private void Awake()
     {
-        station = new(ResourceType.Rock, 20);
+        station = new(resourceType, resourceAmount);
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void SubscribeToTicks(TickTime tickTime)
     {
-        if (other == null) return;
-
-        if (other.TryGetComponent<IWorkable>(out var characterManager))
-        {
-            characterManager.StartWorking(station.resourceType);
-        }
+        TimeEvents.OnRegisterTickListenerRequested?.Invoke(this, tickTime);
+    }    
+    
+    public void UnsubscribeToTicks(TickTime tickTime)
+    {
+        TimeEvents.OnRemoveTickListenerRequested?.Invoke(this, tickTime);
     }
+
+    public void OnTicked()
+    {
+        SubstractResource();
+    }
+
+    private void SubstractResource()
+    {
+        resourceAmount -= 1;
+        if (resourceAmount <= 0) { Destroy(gameObject); }
+    }    
 }
