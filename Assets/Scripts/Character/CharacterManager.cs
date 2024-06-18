@@ -1,79 +1,61 @@
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, ITickListener, IWorkable
+public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, ITickListener
 {
-    public CharacterController characterController;
-    public CharacterAnimatorManager characterAnimatorManager;
-    public CharacterLocomotionManager characterLocomotionManager;
-    public CharacterStateManager characterStateManager;
 
-    public GameObject target;
-    public GameObject city;
-    public Vector3 nextPathPoint;
-    
-    public int inventory;
-    public int capacity = 10;
-    public ResourceType resourceType = ResourceType.nothing;
+    public CharacterStateManager CharacterStateManager { get; set; }
+    public CharacterAnimatorManager CharacterAnimatorManager { get; set; }
+    public CharacterLocomotionManager CharacterLocomotionManager { get; set; }
 
+    public ITickListener TickListener { get; set; }
+    public Transform Transform { get; set; }
+    public CharacterController CharacterController { get; set; }
+
+    public Vector3 NextPathPoint { get; set; }
 
     protected virtual void Awake()
     {
-        characterController = GetComponent<CharacterController>();
-        characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
-        characterStateManager = GetComponent<CharacterStateManager>();
-        characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
+        CharacterStateManager = GetComponent<CharacterStateManager>();
+        CharacterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+        CharacterLocomotionManager = GetComponent<CharacterLocomotionManager>();
+
+        CharacterController = GetComponent<CharacterController>();
     }
 
     protected virtual void Start()
     {
-        Debug.Log(GameObject.FindGameObjectWithTag("City"));
-        city = GameObject.FindGameObjectWithTag("City");
-        QualitySettings.vSyncCount = 1;
+        
     }
 
     protected virtual void Update()
     {
-        characterLocomotionManager.HandleAllMovement();
+        CharacterLocomotionManager.HandleAllMovement();
     }
     protected virtual void LateUpdate()
     {
     }
     public void TakeDamage()
     {
-        characterStateManager.OnStateChangeRequested(CharacterStateEnum.Hurt);
+        CharacterStateManager.OnStateChangeRequested(CharacterState.Hurt);
     }    
     
-    public void StartWorking(ResourceType resourceType)
-    {
-        this.resourceType = resourceType;
-        characterStateManager.OnStateChangeRequested(CharacterStateEnum.Working);
-        SubscribeToTicks(TickTime.Large);
-    }
-
-    public void UnloadCargo()
-    {
-        inventory = 0;
-        resourceType = ResourceType.nothing;
-    }
-
     public void SubscribeToTicks(TickTime tickTime)
     {
         TimeEvents.OnRegisterTickListenerRequested?.Invoke(this, tickTime);
+    }
+
+    public void UnsubscribeToTicks()
+    {
+        UnsubscribeToTicks(TickTime.Large);
     }    
-    
-    public void UnsubscribeToTicks(TickTime tickTime)
+
+    private void UnsubscribeToTicks(TickTime tickTime)
     {
         TimeEvents.OnRemoveTickListenerRequested?.Invoke(this, tickTime);
     }
 
     public void OnTicked()
     {
-        inventory++;
-        if (inventory >= capacity)
-        {
-            UnsubscribeToTicks(TickTime.Large);
-            target = city;
-            characterStateManager.OnStateChangeRequested(CharacterStateEnum.Following);
-        }
+
     }
 }

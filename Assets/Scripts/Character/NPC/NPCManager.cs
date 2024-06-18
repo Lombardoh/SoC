@@ -1,11 +1,7 @@
-public class NPCManager : CharacterManager
+public class NPCManager : CharacterManager, ICharacterManager
 {
     protected override void Awake()
     {
         base.Awake();
-    }
-
-    protected override void Start()
-    {
     }
 }

@@ -1,17 +1,17 @@
 public class CharacterRunningState : CharacterBaseState
 {
-    public override void OnEnter(CharacterManager character)
+    public override void OnEnter(ICharacterManager character)
     {
-        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 1);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 1);
     }
     
-    public override void OnExit(CharacterManager character)
+    public override void OnExit(ICharacterManager character)
     {
-        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
     }
 
-    public override void Update(CharacterManager character)
+    public override void Update(ICharacterManager character)
     {
-        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 0.5f);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0.5f);
     }
 }

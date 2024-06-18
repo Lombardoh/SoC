@@ -60,7 +60,7 @@ public class CharacterLocomotionManager : MonoBehaviour
     {
         if(newValue == true)
         {
-            //character.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
+            //character.characterStateManager.OnStateChangeRequested(CharacterState.Idle);
             moveDirection.y = 0;
         }
     }    
@@ -98,11 +98,6 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     public virtual void RotateTowards()
     {
-        if (character.nextPathPoint != null && character.target != null)
-        {
-            Vector3 direction = character.nextPathPoint - transform.position;
-            Quaternion rotation = Quaternion.LookRotation(direction);
-            character.transform.rotation = rotation;
-        }
+
     }
 }

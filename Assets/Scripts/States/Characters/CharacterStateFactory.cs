@@ -1,24 +1,24 @@
 public static class StateFactory
 {
-    public static CharacterBaseState CreateState(CharacterStateEnum newState)
+    public static CharacterBaseState CreateState(CharacterState newState)
     {
         switch (newState)
         {
-            case CharacterStateEnum.Idle:
+            case CharacterState.Idle:
                 return new CharacterIdleState();                
-            case CharacterStateEnum.walking:
+            case CharacterState.walking:
                 return new CharacterWalkingState();
-            case CharacterStateEnum.running:
+            case CharacterState.running:
                 return new CharacterRunningState();
-            case CharacterStateEnum.Hurt:
+            case CharacterState.Hurt:
                 return new CharacterHurtState();                
-            case CharacterStateEnum.Attacking:
+            case CharacterState.Attacking:
                 return new CharacterAttackingState();
-            case CharacterStateEnum.Jumping:
+            case CharacterState.Jumping:
                 return new CharacterJumpingState();
-            case CharacterStateEnum.Following:
+            case CharacterState.Following:
                 return new CharacterFollowState();                
-            case CharacterStateEnum.Working:
+            case CharacterState.Working:
                 return new CharacterWorkingState();    
         }
         return null;

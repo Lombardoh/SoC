@@ -1,19 +1,17 @@
-using UnityEngine;
-
 public class CharacterJumpingState : CharacterBaseState
 {
-    public override void OnEnter(CharacterManager character)
+    public override void OnEnter(ICharacterManager character)
     {
-        character.characterAnimatorManager.UpdateAnimatorGroundingParameter(false);
-        character.characterLocomotionManager.AttempToPerformJump();
+        character.CharacterAnimatorManager.UpdateAnimatorGroundingParameter(false);
+        character.CharacterLocomotionManager.AttempToPerformJump();
     }
 
-    public override void OnExit(CharacterManager character)
+    public override void OnExit(ICharacterManager character)
     {
-        character.characterAnimatorManager.UpdateAnimatorGroundingParameter(true);
+        character.CharacterAnimatorManager.UpdateAnimatorGroundingParameter(true);
     }
 
-    public override void Update(CharacterManager character)
+    public override void Update(ICharacterManager character)
     {
     }
 }

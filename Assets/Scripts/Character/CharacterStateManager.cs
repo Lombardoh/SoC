@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class CharacterStateManager : MonoBehaviour
 {
-    private CharacterManager characterManager;
+    private ICharacterManager characterManager;
 
     public string currentStateString = string.Empty;
-    private CharacterStateEnum currentStateType = CharacterStateEnum.Idle;
+    private CharacterState currentStateType = CharacterState.Idle;
 
     private CharacterBaseState currentState;
     public CharacterBaseState CurrentState
@@ -13,24 +13,27 @@ public class CharacterStateManager : MonoBehaviour
         get { return currentState; }
         set { currentState = value; }
     }    
-    public CharacterStateEnum CurrentStateType
+    public CharacterState CurrentStateType
     {
         get { return currentStateType; }
         set { currentStateType = value; }
     }
 
-    private void Awake()
+    private void Start()
     {
-        characterManager = GetComponent<CharacterManager>();
-        
-    }
-
-    void Update()
-    {
+        characterManager = GetComponent<ICharacterManager>();
+        characterManager.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);
+        Debug.Log(characterManager);
         currentState.Update(characterManager);
     }
 
-    public void OnStateChangeRequested(CharacterStateEnum newState)
+    //void Update()
+    //{
+    //    if (characterManager == null) return;
+    //    currentState.Update(characterManager);
+    //}
+
+    public void OnStateChangeRequested(CharacterState newState)
     {
         currentStateString = newState.ToString();
         CurrentStateType = newState;

@@ -2,19 +2,17 @@ using UnityEngine;
 
 public class CharacterHurtState : CharacterBaseState
 {
-    public override void OnEnter(CharacterManager character)
+    public override void OnEnter(ICharacterManager character)
     {
-        Debug.Log("enter");
-        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
-        character.characterAnimatorManager.UpdateAnimatorWasHurtParameter(true);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+        character.CharacterAnimatorManager.UpdateAnimatorWasHurtParameter(true);
     }
-    public override void OnExit(CharacterManager character)
+    public override void OnExit(ICharacterManager character)
     {
-        Debug.Log("exit");
-        character.characterAnimatorManager.UpdateAnimatorWasHurtParameter(false);
+        character.CharacterAnimatorManager.UpdateAnimatorWasHurtParameter(false);
     }
 
-    public override void Update(CharacterManager character)
+    public override void Update(ICharacterManager character)
     {
 
     }

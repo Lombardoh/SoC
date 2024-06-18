@@ -1,30 +1,28 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitsManager : MonoBehaviour
+public class CityUnitsManager : MonoBehaviour
 {
     public GameObject unitPrefab;
     public Transform spawnTransform;
 
-    private List<GameObject> units = new();
+    private readonly List<GameObject> units = new();
 
     private void OnEnable()
     {
-        UnitEvents.OnRequestUnit += HandleRequestUnit;
+        ResourceEvents.OnUpdatePopulation+= updatePopulation;
     }
 
     private void OnDisable()
     {
-        UnitEvents.OnRequestUnit -= HandleRequestUnit;
+        ResourceEvents.OnUpdatePopulation -= updatePopulation;
     }
 
-    private void HandleRequestUnit(Action<CharacterManager> callback)
+    private void updatePopulation(int amount)
     {
         CharacterManager unit = CreateUnit();
-        callback?.Invoke(unit);
     }
-    public CharacterManager CreateUnit()
+    private CharacterManager CreateUnit()
     {
         int population = 0; 
         UnitEvents.OnCheckPopulation((res) => population = res);

@@ -1,5 +1,5 @@
 using System;
 public class StateEvents
 {
-    public static Action<CharacterStateEnum> StateChangeRequested;
+    public static Action<CharacterState> StateChangeRequested;
 }

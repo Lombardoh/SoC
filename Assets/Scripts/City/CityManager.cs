@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
 {
     private City city;
-    public GameObject panel;
+    public GameObject cityPanel;
     public TextMeshProUGUI resources;
-    private float growPopulation = 0;
+    [SerializeField]private float growPopulation = 17;
 
     private void OnEnable()
     {
@@ -19,30 +19,28 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
         UnitEvents.OnCheckPopulation -= (callback) => callback(CheckPopulation());
     }
 
-    private int CheckPopulation()
-    {
-        return city.Population;
-    }
-
     private void Awake()
     {
-        city = new(20, 1);
+        city = new(0, 1);
     }
 
     private void Start()
     {
         SubscribeToTicks(TickTime.Large);
     }
-
+    private int CheckPopulation()
+    {
+        return city.Population;
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         UpdateUI();
-        panel.SetActive(true);
+        cityPanel.SetActive(true);
     }
 
     private void UpdateUI()
     {
-        resources.text = city.Population.ToString() + " " + city.Growth.ToString();
+        resources.text = city.Population.ToString();
     }
 
     public void SubscribeToTicks(TickTime tickTime)
@@ -50,7 +48,12 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
         TimeEvents.OnRegisterTickListenerRequested.Invoke(this, tickTime);
     }    
     
-    public void UnsubscribeToTicks(TickTime tickTime)
+    public void UnsubscribeToTicks()
+    {
+        UnsubscribeToTicks(TickTime.Large);
+    }    
+
+    private void UnsubscribeToTicks(TickTime tickTime)
     {
         TimeEvents.OnRegisterTickListenerRequested.Invoke(this, tickTime);
     }
@@ -58,12 +61,12 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
     public void OnTicked()
     {
         growPopulation += city.Growth;
-        if (growPopulation > Constants.populationGrowThreshold) 
+        if (growPopulation > Constants.populationGrowThreshold && Constants.populationGrowLimit >= city.Population) 
         {
             city.Population += 1;
             growPopulation = 0;
             UpdateUI();
-            ResourceEvents.UpdatePopulation?.Invoke(1);
+            ResourceEvents.OnUpdatePopulation?.Invoke(1);
         }
     }
 

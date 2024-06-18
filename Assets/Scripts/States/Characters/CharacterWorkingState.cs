@@ -1,31 +1,32 @@
+using UnityEngine;
+
 public class CharacterWorkingState : CharacterBaseState
 {
-    public override void OnEnter(CharacterManager character)
+    public override void OnEnter(ICharacterManager character)
     {
-        character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
-        character.characterAnimatorManager.UpdateAnimatorWorkingParameter(true);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+        character.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(true);
 
-        character.SubscribeToTicks(TickTime.Large);
-        if (character.target.TryGetComponent<ITickListener>(out var target))
-        {
-            target.SubscribeToTicks(TickTime.Large);
-        }
-
-
+        character.TickListener.SubscribeToTicks(TickTime.Large);
+        //if (character.target.TryGetComponent<ITickListener>(out var target))
+        //{
+        //    target.SubscribeToTicks(TickTime.Large);
+        //}
     }
     
-    public override void OnExit(CharacterManager character)
+    public override void OnExit(ICharacterManager character)
     {
-        character.characterAnimatorManager.UpdateAnimatorWorkingParameter(false);
-        character.UnsubscribeToTicks(TickTime.Large);
-        if (character.target.TryGetComponent<ITickListener>(out var target))
-        {
-            target.UnsubscribeToTicks(TickTime.Large);
-        }
+        character.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(false);
+        character.TickListener.UnsubscribeToTicks();
+        //if (character.target.TryGetComponent<ITickListener>(out var target))
+        //{
+        //    target.UnsubscribeToTicks();
+        //}
 
+        //character.target = UnitUtils.FindClosestTarget(character.transform, TagType.City);
     }
 
-    public override void Update(CharacterManager character)
+    public override void Update(ICharacterManager character)
     {
 
     }

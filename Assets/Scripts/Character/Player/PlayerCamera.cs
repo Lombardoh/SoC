@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     public static PlayerCamera Instance;
-    public PlayerManager player;
+    public CharacterManager player;
     public Camera cameraObject;
     [SerializeField] Transform cameraPivotTransform;
 
@@ -38,7 +38,6 @@ public class PlayerCamera : MonoBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         cameraZPosition = cameraObject.transform.localPosition.z;
     }
 

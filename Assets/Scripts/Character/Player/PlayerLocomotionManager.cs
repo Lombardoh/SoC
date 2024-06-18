@@ -40,7 +40,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     public void HandleAiredMovement()
     {
         moveDirection.y -= gravityForce;
-        player.characterController.Move(moveDirection * Time.deltaTime);
+        player.CharacterController.Move(moveDirection * Time.deltaTime);
     }
     private void HandleGroundedMovement()
     {
@@ -52,7 +52,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
          if(PlayerInputManager.instance.moveAmount > 0)
         {
-            player.characterController.Move(Time.deltaTime * CurrentSpeed * moveDirection);
+            player.CharacterController.Move(Time.deltaTime * CurrentSpeed * moveDirection);
         }
     }
     private void HandleRotation()

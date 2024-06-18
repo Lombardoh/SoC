@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WorkManager : MonoBehaviour
 {
-    private List<CharacterManager> units = new List<CharacterManager>();
+    private List<CharacterManager> units = new ();
     private void OnEnable()
     {
         WorkEvents.ChangeWorkingAmount += ChangeWorkingAmount;
@@ -21,9 +21,6 @@ public class WorkManager : MonoBehaviour
 
     private void OnUnitReceived(CharacterManager unit, WorkType work)
     {
-        if (unit == null) {return; }
-        units.Add(unit);
-        unit.target = UnitUtils.FindClosestTarget(unit.transform, TagType.Tree);
-        unit.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Following);
+
     }
 }

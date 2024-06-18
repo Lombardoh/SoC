@@ -15,6 +15,11 @@ public class StationManager : MonoBehaviour, ITickListener
         TimeEvents.OnRegisterTickListenerRequested?.Invoke(this, tickTime);
     }    
     
+    public void UnsubscribeToTicks()
+    {
+        UnsubscribeToTicks(TickTime.Large);
+    }   
+
     public void UnsubscribeToTicks(TickTime tickTime)
     {
         TimeEvents.OnRemoveTickListenerRequested?.Invoke(this, tickTime);

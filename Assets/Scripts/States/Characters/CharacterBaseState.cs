@@ -1,13 +1,13 @@
 public abstract class CharacterBaseState
 {
-    public abstract void OnEnter(CharacterManager character);
-    public abstract void OnExit(CharacterManager character);
-    public abstract void Update(CharacterManager character);
+    public abstract void OnEnter(ICharacterManager character);
+    public abstract void OnExit(ICharacterManager character);
+    public abstract void Update(ICharacterManager character);
 
-    public virtual void ToState(CharacterManager character, CharacterBaseState state)
+    public virtual void ToState(ICharacterManager character, CharacterBaseState state)
     {
-        character.characterStateManager.CurrentState.OnExit(character);
-        character.characterStateManager.CurrentState = state;
-        character.characterStateManager.CurrentState.OnEnter(character);
+        character.CharacterStateManager.CurrentState.OnExit(character);
+        character.CharacterStateManager.CurrentState = state;
+        character.CharacterStateManager.CurrentState.OnEnter(character);
     }
 }

@@ -1,5 +1,6 @@
 public enum TagType
 {
     Tree,
-    Rock
+    Rock,
+    City
 }

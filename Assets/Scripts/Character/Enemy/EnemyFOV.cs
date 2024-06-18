@@ -47,10 +47,10 @@ public class EnemyFOV : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
-                    if (target && enemy.characterStateManager.CurrentStateType == CharacterStateEnum.Following) { return; }
+                    if (target && enemy.CharacterStateManager.CurrentStateType == CharacterState.Following) { return; }
                     //this needs to be reworked
                     //enemy.target = (GameObject)target;
-                    enemy.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Following);
+                    enemy.CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
                 }
                 else
                 {
@@ -60,15 +60,15 @@ public class EnemyFOV : MonoBehaviour
             else
             {
                 //inside the sphere but outside vision range
-                enemy.target = null;
-                enemy.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);                
+                //enemy.target = null;
+                enemy.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);                
             }
         }
         else
         {
             //outside the sphere
-            enemy.target = null;
-            enemy.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
+            //enemy.target = null;
+            enemy.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);
         }
     }
 

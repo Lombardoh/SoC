@@ -11,12 +11,12 @@ public class ResourceManager : MonoBehaviour
 
     private void OnEnable()
     {
-        ResourceEvents.UpdatePopulation += UpdatePopulation;
+        ResourceEvents.OnUpdatePopulation += UpdatePopulation;
     }    
     
     private void OnDisable()
     {
-        ResourceEvents.UpdatePopulation -= UpdatePopulation;
+        ResourceEvents.OnUpdatePopulation -= UpdatePopulation;
     }
 
     private void UpdatePopulation(int newPopulation) 

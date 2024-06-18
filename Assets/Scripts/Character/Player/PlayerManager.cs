@@ -3,7 +3,7 @@ public class PlayerManager : CharacterManager
     protected override void Awake()
     {
         base.Awake();
-        characterLocomotionManager = GetComponent<PlayerLocomotionManager>();
+        CharacterLocomotionManager = GetComponent<PlayerLocomotionManager>();
     }
 
     protected override void LateUpdate()

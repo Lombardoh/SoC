@@ -3,8 +3,10 @@ using UnityEngine;
 public class PlayerInputManager : MonoBehaviour
 {
     public static PlayerInputManager instance;
-    public PlayerManager player;
+    public CharacterManager player;
     PlayerControls playerControls;
+
+    private IInteractable interactableObject;
 
     [Header("Movement Input")]
     [SerializeField] Vector2 movementInput;
@@ -40,11 +42,13 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
             playerControls.PlayerAttack.BasicAttacks.performed += context => PerformBasicAttack();
             playerControls.PlayerActions.Jump.performed += context => PerformJump();
+            playerControls.PlayerActions.Interact.performed += context => PerformInteraction();
             playerControls.PlayerActions.Walk.started += context => StartWalking(true);
             playerControls.PlayerActions.Walk.canceled += context => StartWalking(false);
         }
 
         InputEvents.OnSetIdle += SetIdle;
+        InteractionEvents.OnUpdateInteractableObject += UpdateInteractableObject;
 
         playerControls.Enable();
     }
@@ -59,22 +63,29 @@ public class PlayerInputManager : MonoBehaviour
     {
         isAttacking = false;
     }
+    private void UpdateInteractableObject(IInteractable InteractableObject)
+    {
+        this.interactableObject = InteractableObject;
+    }
+    private void PerformInteraction()
+    {
+        if (interactableObject == null) { return; }
+        interactableObject.PerformInteraction();
+    }
     private void PerformBasicAttack()
     {
         if (isAttacking) { return; }
         isAttacking = true;
-        player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Attacking);
-    }      
-    
+        player.CharacterStateManager.OnStateChangeRequested(CharacterState.Attacking);
+    }         
     private void StartWalking(bool newValue)
     {
-        player.characterLocomotionManager.IsWalking = newValue;
+        player.CharacterLocomotionManager.IsWalking = newValue;
     }      
-    
     private void PerformJump()
     {
-        if (isAttacking || !player.characterLocomotionManager.IsGrounded) { return; }
-        player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Jumping);
+        if (isAttacking || !player.CharacterLocomotionManager.IsGrounded) { return; }
+        player.CharacterStateManager.OnStateChangeRequested(CharacterState.Jumping);
     }    
 
     private void Update()
@@ -91,22 +102,21 @@ public class PlayerInputManager : MonoBehaviour
 
         moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horitontalInput));
 
-        if(!player.characterLocomotionManager.IsGrounded) { return; }
-
-        if(player.characterLocomotionManager.IsWalking && moveAmount > 0)
+        if(!player.CharacterLocomotionManager.IsGrounded) { return; }
+        if(player.CharacterLocomotionManager.IsWalking && moveAmount > 0)
         {
             moveAmount = 1;
-            player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.walking);
+            player.CharacterStateManager.OnStateChangeRequested(CharacterState.walking);
             return;
         }
 
         if(moveAmount > 0)
         {
             moveAmount = 1;
-            player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.running);
+            player.CharacterStateManager.OnStateChangeRequested(CharacterState.running);
             return;
         }
-        player.characterStateManager.OnStateChangeRequested(CharacterStateEnum.Idle);
+        player.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);
     }
 
     private void HandleCameraMovementInput() 
