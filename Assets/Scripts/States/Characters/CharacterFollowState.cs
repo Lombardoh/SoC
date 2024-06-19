@@ -7,6 +7,8 @@ public class CharacterFollowState : CharacterBaseState
     private Path path;
     private readonly float changeWaypointDistance = 2f;
     private readonly float arrivalDistance = 5f;
+    private readonly float pathUpdateInterval = 0.5f;
+    private float lastPathUpdateTime = 0f;
     private INPCManager NPCManager { get; set; }
 
     public override void OnEnter(ICharacterManager character)
@@ -28,6 +30,11 @@ public class CharacterFollowState : CharacterBaseState
         character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0.5f);
     }
 
+    private void UpdatePath(Seeker seeker, ICharacterManager character)
+    {
+        seeker.StartPath(character.Transform.position, character.Target.transform.position, (path) => OnPathComplete(path, character));
+    }
+
     public void OnPathComplete(Path p, ICharacterManager character)
     {
         if (!p.error)
@@ -46,6 +53,16 @@ public class CharacterFollowState : CharacterBaseState
     public override void Update(ICharacterManager character)
     {
         if (path == null) return;
+
+        if (Time.time - lastPathUpdateTime > pathUpdateInterval)
+        {
+            lastPathUpdateTime = Time.time;
+            if (character is MonoBehaviour monoBehaviour)
+            {
+                Seeker seeker = monoBehaviour.GetComponent<Seeker>();
+                UpdatePath(seeker, character);
+            }
+        }
 
         if (currentWaypoint >= path.vectorPath.Count)
         {
