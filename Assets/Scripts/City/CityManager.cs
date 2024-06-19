@@ -12,16 +12,18 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
     private void OnEnable()
     {
         UnitEvents.OnCheckPopulation += (callback) => callback(CheckPopulation());
+        ResourceEvents.OnGetLowestResource+= (callback) => callback(GetLowestResource());
     }
 
     private void OnDisable()
     {
         UnitEvents.OnCheckPopulation -= (callback) => callback(CheckPopulation());
+        ResourceEvents.OnGetLowestResource += (callback) => callback(GetLowestResource());
     }
 
     private void Awake()
     {
-        city = new(0, 1);
+        city = new(0, 1, 0, 1);
     }
 
     private void Start()
@@ -36,6 +38,11 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
     {
         UpdateUI();
         cityPanel.SetActive(true);
+    }
+
+    private ResourceType GetLowestResource()
+    {
+        return city.GetResourceWithLowestAmount();
     }
 
     private void UpdateUI()

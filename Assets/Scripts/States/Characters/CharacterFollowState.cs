@@ -9,17 +9,24 @@ public class CharacterFollowState : CharacterBaseState
 
     public override void OnEnter(ICharacterManager character)
     {
-        //if (character.target == null)
+        Debug.Log(character);
+        Debug.Log(character.Target);
+        //if (character.Target == null)
         //{
-        //    character.characterStateManager.OnStateChangeRequested(CharacterState.Idle);
+        //    character.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);
         //    return;
         //}
-        //Seeker seeker = character.GetComponent<Seeker>();
-        //seeker.StartPath(character.transform.position, character.target.transform.position, (path) => OnPathComplete(path, character));
 
-        //character.characterAnimatorManager.UpdateAnimatorMovementParameter(0, 0.5f);
+        //MonoBehaviour monoBehaviour = character as MonoBehaviour;
+        //if (monoBehaviour == null) { return; }
+
+        //Seeker seeker = monoBehaviour.GetComponent<Seeker>();
+        //seeker.StartPath(character.Transform.position, character.Target.transform.position, (path) => OnPathComplete(path, character));
+
+        //character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0.5f);
     }
-    public void OnPathComplete(Path p, CharacterManager character)
+
+    public void OnPathComplete(Path p, ICharacterManager character)
     {
         if (!p.error) {
             path = p;

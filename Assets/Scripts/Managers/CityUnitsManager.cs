@@ -6,23 +6,24 @@ public class CityUnitsManager : MonoBehaviour
     public GameObject unitPrefab;
     public Transform spawnTransform;
 
-    private readonly List<GameObject> units = new();
+    private readonly List<NPCManager> units = new();
 
     private void OnEnable()
     {
-        ResourceEvents.OnUpdatePopulation+= updatePopulation;
+        ResourceEvents.OnUpdatePopulation+= UpdatePopulation;
     }
 
     private void OnDisable()
     {
-        ResourceEvents.OnUpdatePopulation -= updatePopulation;
+        ResourceEvents.OnUpdatePopulation -= UpdatePopulation;
     }
 
-    private void updatePopulation(int amount)
+    private void UpdatePopulation(int amount)
     {
-        CharacterManager unit = CreateUnit();
+        NPCManager unit = CreateUnit();
+        ResourceEvents.OnGetLowestResource((res) => unit.FindWork(res));
     }
-    private CharacterManager CreateUnit()
+    private NPCManager CreateUnit()
     {
         int population = 0; 
         UnitEvents.OnCheckPopulation((res) => population = res);
@@ -30,8 +31,8 @@ public class CityUnitsManager : MonoBehaviour
 
         GameObject unit = Instantiate(unitPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         unit.transform.position = spawnTransform.position;
-        CharacterManager character = unit.GetComponent<CharacterManager>();
-        units.Add(unit);
-        return character;
+        NPCManager NPC = unit.GetComponent<NPCManager>();
+        units.Add(NPC);
+        return NPC;
     }
 }

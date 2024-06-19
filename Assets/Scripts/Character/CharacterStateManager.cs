@@ -7,12 +7,8 @@ public class CharacterStateManager : MonoBehaviour
     public string currentStateString = string.Empty;
     private CharacterState currentStateType = CharacterState.Idle;
 
-    private CharacterBaseState currentState;
-    public CharacterBaseState CurrentState
-    {
-        get { return currentState; }
-        set { currentState = value; }
-    }    
+    public  CharacterBaseState CurrentState { get; set; }
+
     public CharacterState CurrentStateType
     {
         get { return currentStateType; }
@@ -23,15 +19,14 @@ public class CharacterStateManager : MonoBehaviour
     {
         characterManager = GetComponent<ICharacterManager>();
         characterManager.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);
-        Debug.Log(characterManager);
-        currentState.Update(characterManager);
+        CurrentState.Update(characterManager);
     }
 
-    //void Update()
-    //{
-    //    if (characterManager == null) return;
-    //    currentState.Update(characterManager);
-    //}
+    void Update()
+    {
+        if (characterManager == null) return;
+        CurrentState.Update(characterManager);
+    }
 
     public void OnStateChangeRequested(CharacterState newState)
     {
@@ -39,7 +34,7 @@ public class CharacterStateManager : MonoBehaviour
         CurrentStateType = newState;
         if(CurrentState != null)
         {
-            currentState.OnExit(characterManager);
+            CurrentState.OnExit(characterManager);
         }
         CurrentState = StateFactory.CreateState(newState);
         CurrentState.OnEnter(characterManager);

@@ -1,7 +1,7 @@
 public enum ResourceType
 {
-    nothing,
+    Nothing,
     Wood,
-    Rock,
+    Stone,
     Water
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - City
   - Tree
+  - Wood
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Enemy
   - Building
   - Unit
-  - 
+  - Resource
   - 
   - 
   - 

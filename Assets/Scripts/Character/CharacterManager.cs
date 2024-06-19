@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, ITickListener
 {
+    public GameObject Target { get; set; }
+    public Vector3 NextPathPoint { get; set; }
 
     public CharacterStateManager CharacterStateManager { get; set; }
     public CharacterAnimatorManager CharacterAnimatorManager { get; set; }
@@ -11,7 +13,6 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     public Transform Transform { get; set; }
     public CharacterController CharacterController { get; set; }
 
-    public Vector3 NextPathPoint { get; set; }
 
     protected virtual void Awake()
     {
@@ -34,6 +35,7 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     protected virtual void LateUpdate()
     {
     }
+
     public void TakeDamage()
     {
         CharacterStateManager.OnStateChangeRequested(CharacterState.Hurt);
