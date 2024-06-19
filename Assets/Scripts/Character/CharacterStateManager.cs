@@ -3,23 +3,14 @@ using UnityEngine;
 public class CharacterStateManager : MonoBehaviour
 {
     private ICharacterManager characterManager;
-
-    public string currentStateString = string.Empty;
-    private CharacterState currentStateType = CharacterState.Idle;
-
     public  CharacterBaseState CurrentState { get; set; }
+    
+    public string currentStateString = string.Empty;
+    public CharacterState CurrentStateType { get; set; } = CharacterState.Idle;
 
-    public CharacterState CurrentStateType
-    {
-        get { return currentStateType; }
-        set { currentStateType = value; }
-    }
-
-    private void Start()
+    private void Awake()
     {
         characterManager = GetComponent<ICharacterManager>();
-        characterManager.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);
-        CurrentState.Update(characterManager);
     }
 
     void Update()
@@ -32,10 +23,9 @@ public class CharacterStateManager : MonoBehaviour
     {
         currentStateString = newState.ToString();
         CurrentStateType = newState;
-        if(CurrentState != null)
-        {
-            CurrentState.OnExit(characterManager);
-        }
+
+        CurrentState ??= StateFactory.CreateState(CharacterState.Idle);
+        CurrentState.OnExit(characterManager);
         CurrentState = StateFactory.CreateState(newState);
         CurrentState.OnEnter(characterManager);
     }

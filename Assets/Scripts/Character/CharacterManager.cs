@@ -10,7 +10,7 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     public CharacterLocomotionManager CharacterLocomotionManager { get; set; }
 
     public ITickListener TickListener { get; set; }
-    public Transform Transform { get; set; }
+    public Transform Transform { get { return transform; }}
     public CharacterController CharacterController { get; set; }
 
 

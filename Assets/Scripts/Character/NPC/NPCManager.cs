@@ -13,7 +13,6 @@ public class NPCManager : CharacterManager, ICharacterManager
     {
         this.AssignedResource = newAssignedResource;
         Target = ResourceUtils.FindClosestResource(this.transform, this.AssignedResource);
-        Debug.Log(Target);
         CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
     }
 }
