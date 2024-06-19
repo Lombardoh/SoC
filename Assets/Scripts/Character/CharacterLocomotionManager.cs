@@ -98,6 +98,6 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     public virtual void RotateTowards()
     {
-
+        transform.LookAt(character.NextPathPoint);
     }
 }

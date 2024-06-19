@@ -13,6 +13,9 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     public Transform Transform { get { return transform; }}
     public CharacterController CharacterController { get; set; }
 
+    Character character;
+
+    public int resource;
 
     protected virtual void Awake()
     {
@@ -25,12 +28,13 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
 
     protected virtual void Start()
     {
-        
+        character = new(0,20);
     }
 
     protected virtual void Update()
     {
         CharacterLocomotionManager.HandleAllMovement();
+        resource = character.ResourceAmount;
     }
     protected virtual void LateUpdate()
     {
@@ -58,6 +62,16 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
 
     public void OnTicked()
     {
+        character.ResourceAmount += 1;
+        if (character.ResourceAmount >= character.ResourceCapacity)
+        {
+            Target = UnitUtils.FindClosestTarget(this.transform, TagType.City);
+            CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
+        }
+    }
 
+    public void EmptyResource()
+    {
+        character.ResourceAmount = 0;
     }
 }

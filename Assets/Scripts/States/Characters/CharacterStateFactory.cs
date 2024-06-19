@@ -19,7 +19,9 @@ public static class StateFactory
             case CharacterState.Following:
                 return new CharacterFollowState();                
             case CharacterState.Working:
-                return new CharacterWorkingState();    
+                return new CharacterWorkingState();
+            case CharacterState.Depositing:
+                return new CharacterDepositingState();    
         }
         return null;
     }
