@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -5,6 +6,7 @@ using UnityEngine.EventSystems;
 public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener, IDepositable
 {
     private City city;
+    private CityResourceManager cityResourceManager;
     public GameObject cityPanel;
     public TextMeshProUGUI resources;
     [SerializeField]private float growPopulation = 17;
@@ -24,11 +26,13 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener, I
     private void Awake()
     {
         city = new(0, 1, 0, 1);
+        cityResourceManager = GetComponent<CityResourceManager>();
     }
 
     private void Start()
     {
         SubscribeToTicks(TickTime.Large);
+        cityResourceManager.UpdateResources();
     }
     private int CheckPopulation()
     {
@@ -36,7 +40,6 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener, I
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        UpdateUI();
         cityPanel.SetActive(true);
     }
 
@@ -45,11 +48,10 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener, I
         return city.GetResourceWithLowestAmount();
     }
 
-    private void UpdateUI()
+    public Dictionary<ResourceType, int> GetResources()
     {
-        resources.text = city.Population.ToString();
+        return city.resources;
     }
-
     public void SubscribeToTicks(TickTime tickTime)
     {
         TimeEvents.OnRegisterTickListenerRequested.Invoke(this, tickTime);
@@ -68,11 +70,10 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener, I
     public void OnTicked()
     {
         growPopulation += city.Growth;
-        if (growPopulation > Constants.populationGrowThreshold && Constants.populationGrowLimit >= city.Population) 
+        if (growPopulation > Constants.populationGrowThreshold && Constants.populationGrowLimit > city.Population) 
         {
             city.Population += 1;
             growPopulation = 0;
-            UpdateUI();
             ResourceEvents.OnUpdatePopulation?.Invoke(1);
         }
     }
@@ -80,5 +81,6 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener, I
     public void Deposite(ResourceType resourceType, int amount)
     {
         city.resources[resourceType] += amount;
+        cityResourceManager.UpdateResources();
     }
 }
