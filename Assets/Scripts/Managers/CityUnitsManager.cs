@@ -17,7 +17,6 @@ public class CityUnitsManager : MonoBehaviour
     {
         ResourceEvents.OnUpdatePopulation -= UpdatePopulation;
     }
-
     private void UpdatePopulation(int amount)
     {
         NPCManager unit = CreateUnit();

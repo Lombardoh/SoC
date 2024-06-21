@@ -9,6 +9,8 @@ public class CharacterDepositingState : CharacterBaseState
         character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
         characterManager = character as CharacterManager;
         NPCManager = character as INPCManager;
+        IDepositable depositable = characterManager.Target.GetComponent<IDepositable>();
+        depositable.Deposite(NPCManager.AssignedResource, characterManager.GetResourceAmount());
         characterManager.EmptyResource();
         character.CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
         NPCManager.UnitActionType = UnitActionType.Gathering;

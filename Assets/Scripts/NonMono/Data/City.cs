@@ -4,8 +4,7 @@ public class City
 {
     public int Population { get; set; }
     public float Growth { get; set; }
-    private Dictionary<ResourceType, int> resources = new();
-
+    public Dictionary<ResourceType, int> resources = new();
 
     public City(int population, float growth, int wood, int stone)
     {

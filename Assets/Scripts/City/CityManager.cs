@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
+public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener, IDepositable
 {
     private City city;
     public GameObject cityPanel;
@@ -77,13 +77,8 @@ public class CityManager : MonoBehaviour, IPointerClickHandler, ITickListener
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Deposite(ResourceType resourceType, int amount)
     {
-        if (other == null) return;
-
-        if (other.TryGetComponent<IWorkable>(out var characterManager))
-        {
-            characterManager.UnloadCargo();
-        }
+        city.resources[resourceType] += amount;
     }
 }

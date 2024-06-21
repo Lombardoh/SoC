@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, ITickListener
 {
+    Character character;
+
     public GameObject Target { get; set; }
     public Vector3 NextPathPoint { get; set; }
 
@@ -13,7 +15,6 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     public Transform Transform { get { return transform; }}
     public CharacterController CharacterController { get; set; }
 
-    Character character;
 
     public int resource;
 
@@ -73,5 +74,9 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     public void EmptyResource()
     {
         character.ResourceAmount = 0;
+    }       
+    public int GetResourceAmount()
+    {
+        return character.ResourceAmount;
     }
 }
