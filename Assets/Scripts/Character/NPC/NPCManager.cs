@@ -1,6 +1,4 @@
 using Pathfinding;
-using UnityEditor.SceneManagement;
-using UnityEngine;
 
 public class NPCManager : CharacterManager, INPCManager
 {

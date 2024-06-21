@@ -1,6 +1,12 @@
 public interface ITickListener
 {
-    void SubscribeToTicks(TickTime tickTime);
-    void UnsubscribeToTicks();
-    void OnTicked();
+    public void SubscribeToTicks(TickTime tickTime)
+    {
+        TimeEvents.OnRegisterTickListenerRequested.Invoke(this, tickTime);
+    }    
+    public void UnsubscribeToTicks(TickTime tickTime)
+    {
+        TimeEvents.OnRemoveTickListenerRequested.Invoke(this, tickTime);
+    }
+    public void OnTicked();
 }

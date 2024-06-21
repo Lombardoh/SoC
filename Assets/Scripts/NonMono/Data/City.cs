@@ -1,26 +1,23 @@
 using System.Collections.Generic;
 
-public class City
+public class City: Settlement
 {
-    public int Population { get; set; }
-    public float Growth { get; set; }
-    public Dictionary<ResourceType, int> resources = new();
-
+    
     public City(int population, float growth, int wood, int stone)
     {
-        Population = population;
         Growth = growth;
-        resources[ResourceType.Stone] = stone;
-        resources[ResourceType.Wood] = wood;
+        Resources[ResourceType.Stone] = stone;
+        Resources[ResourceType.Wood] = wood;
+        Resources[ResourceType.Population] = population;
     }
-
     public ResourceType GetResourceWithLowestAmount()
     {
         int lowestAmount = int.MaxValue;
         ResourceType lowestResource = ResourceType.Wood;
 
-        foreach (var kvp in resources)
+        foreach (var kvp in Resources)
         {
+            if (kvp.Key == ResourceType.Nothing || kvp.Key == ResourceType.Population) { continue; }
             if (kvp.Value < lowestAmount)
             {
                 lowestAmount = kvp.Value;

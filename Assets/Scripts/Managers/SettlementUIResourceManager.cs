@@ -1,14 +1,13 @@
 using UnityEngine;
 using TMPro;
 
-public class CityResourceManager : MonoBehaviour
+public class SettlementUIResourceManager : MonoBehaviour
 {
-    CityManager cityManager;
+    SettlementManager settlementManager;
     public Transform resourcePanel;
-
     private void Awake()
     {
-        cityManager = GetComponent<CityManager>();
+        settlementManager = GetComponent<SettlementManager>();
     }
 
     public void UpdateResources()
@@ -21,7 +20,7 @@ public class CityResourceManager : MonoBehaviour
         float yOffset = 2f;
         int index = 0;
 
-        foreach (var resource in cityManager.GetResources())
+        foreach (var resource in settlementManager.GetResources())
         {
             Vector3 positionOffset = new(0, -index * yOffset + 3, 0);
 

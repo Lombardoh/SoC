@@ -8,15 +8,16 @@ public class CharacterWorkingState : CharacterBaseState
         characterManager = character as INPCManager;
         character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
         character.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(true);
+
         if (character is ITickListener tickListener)
         {
             tickListener.SubscribeToTicks(TickTime.Large);
         }
 
-        if (character.Target.TryGetComponent<ITickListener>(out var target))
-        {
-            target.SubscribeToTicks(TickTime.Large);
-        }
+        //if (character.Target.TryGetComponent<ITickListener>(out var target))
+        //{
+        //    target.SubscribeToTicks(TickTime.Large);
+        //}
     }
     
     public override void OnExit(ICharacterManager character)
@@ -24,12 +25,12 @@ public class CharacterWorkingState : CharacterBaseState
         character.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(false);
         if (character is ITickListener tickListener)
         {
-            tickListener.UnsubscribeToTicks();
+            tickListener.UnsubscribeToTicks(TickTime.Large);
         }
-        if (character.Target.TryGetComponent<ITickListener>(out var target))
-        {
-            target.UnsubscribeToTicks();
-        }
+        //if (character.Target.TryGetComponent<ITickListener>(out var target))
+        //{
+        //    target.UnsubscribeToTicks(TickTime.Large);
+        //}
 
         character.Target = UnitUtils.FindClosestTarget(character.Transform, TagType.City);
         characterManager.UnitActionType = UnitActionType.Depositing;

@@ -1,4 +1,16 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 public interface IDepositable 
 {
-    public void Deposite(ResourceType resourceType, int amount);
+    public Dictionary<ResourceType, int> GetResources();
+    public ResourceType GetLowestResource();
+    public SettlementUIResourceManager GetCityUIResourceManager();
+    public void Deposite(ResourceType resourceType, int amount)
+    {
+        Dictionary<ResourceType, int> resources = GetResources();
+        SettlementUIResourceManager cityResourceManager = GetCityUIResourceManager();
+        resources[resourceType] += amount;
+        cityResourceManager.UpdateResources();
+    }
 }
