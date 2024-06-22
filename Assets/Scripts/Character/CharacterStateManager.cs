@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class CharacterStateManager : MonoBehaviour
 {
-    private ICharacterManager characterManager;
+    public ICharacterManager characterManager;
     public  CharacterBaseState CurrentState { get; set; }
-    
     public string currentStateString = string.Empty;
-    public CharacterState CurrentStateType { get; set; } = CharacterState.Idle;
+    public CharacterState CurrentStateType { get; set; }
 
     private void Awake()
     {
@@ -28,5 +27,28 @@ public class CharacterStateManager : MonoBehaviour
         CurrentState.OnExit(characterManager);
         CurrentState = StateFactory.CreateState(newState);
         CurrentState.OnEnter(characterManager);
+    }
+
+    public void OnSelectNextState(UnitActionType action)
+    {
+        switch (action)
+        {
+            case UnitActionType.Idling:
+                OnStateChangeRequested(CharacterState.Idle);
+                break;            
+            case UnitActionType.Gathering:
+                OnStateChangeRequested(CharacterState.Working);
+                break;
+            case UnitActionType.Depositing:
+                NPCManager GetNPCManager = characterManager as NPCManager;
+                characterManager.Target = UnitUtils.FindClosestTarget(characterManager.Transform, TagType.City);
+                characterManager.TargetPosition = characterManager.Target.transform.position;
+                OnStateChangeRequested(CharacterState.Following);
+                break;
+            case UnitActionType.Wandering:
+                characterManager.TargetPosition = GameUtils.GetRandomPosition(characterManager.Transform.position, 10f);
+                OnStateChangeRequested(CharacterState.Following);
+                break;
+        }
     }
 }

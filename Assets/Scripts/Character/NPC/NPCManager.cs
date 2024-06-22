@@ -26,6 +26,7 @@ public class NPCManager : CharacterManager, INPCManager
     {
         this.AssignedResource = newAssignedResource;
         Target = ResourceUtils.FindClosestResource(this.transform, this.AssignedResource);
+        TargetPosition = Target.transform.position;
         this.UnitActionType = UnitActionType.Gathering;
         CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
     }

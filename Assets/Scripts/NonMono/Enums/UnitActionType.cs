@@ -2,5 +2,6 @@ public enum UnitActionType
 {
     Idling,
     Gathering,
-    Depositing
+    Depositing,
+    Wandering
 }
