@@ -15,51 +15,31 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     public Transform Transform { get { return transform; }}
     public CharacterController CharacterController { get; set; }
 
-    public int resource;
+    public int resource; //remove this once character have their own resource panels
 
     protected virtual void Awake()
     {
         CharacterStateManager = GetComponent<CharacterStateManager>();
         CharacterAnimatorManager = GetComponent<CharacterAnimatorManager>();
         CharacterLocomotionManager = GetComponent<CharacterLocomotionManager>();
-
         CharacterController = GetComponent<CharacterController>();
     }
-
     protected virtual void Start()
     {
         character = new(0,20);
     }
-
     protected virtual void Update()
     {
         CharacterLocomotionManager.HandleAllMovement();
-        resource = character.ResourceAmount;
+        resource = character.ResourceAmount; //remove this once character have their own resource panels
     }
     protected virtual void LateUpdate()
     {
     }
-
     public void TakeDamage()
     {
         CharacterStateManager.OnStateChangeRequested(CharacterState.Hurt);
     }    
-    
-    public void SubscribeToTicks(TickTime tickTime)
-    {
-        TimeEvents.OnRegisterTickListenerRequested?.Invoke(this, tickTime);
-    }
-
-    public void UnsubscribeToTicks()
-    {
-        UnsubscribeToTicks(TickTime.Large);
-    }    
-
-    private void UnsubscribeToTicks(TickTime tickTime)
-    {
-        TimeEvents.OnRemoveTickListenerRequested?.Invoke(this, tickTime);
-    }
-
     public void OnTicked()
     {
         character.ResourceAmount += 1;
@@ -70,7 +50,6 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
             CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
         }
     }
-
     public void EmptyResource()
     {
         character.ResourceAmount = 0;

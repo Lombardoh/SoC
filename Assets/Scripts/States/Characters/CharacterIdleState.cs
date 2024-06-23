@@ -10,6 +10,5 @@ public class CharacterIdleState : CharacterBaseState
 
     public override void Update(ICharacterManager character)
     {
-
     }
 }

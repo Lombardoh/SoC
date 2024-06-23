@@ -13,7 +13,7 @@ public class CharacterDepositingState : CharacterBaseState
         depositable.Deposite(NPCManager.AssignedResource, characterManager.GetResourceAmount());
         characterManager.EmptyResource();
         character.CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
-        NPCManager.UnitActionType = UnitActionType.Gathering;
+        NPCManager.AssignedTask = UnitTaskType.Gathering;
     }
     
     public override void OnExit(ICharacterManager character)

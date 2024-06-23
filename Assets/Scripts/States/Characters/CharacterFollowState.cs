@@ -48,7 +48,13 @@ public class CharacterFollowState : CharacterBaseState
     }
     public override void Update(ICharacterManager character)
     {
-        if (path == null) return;
+        if (path == null || currentWaypoint > path.vectorPath.Count)
+        {
+            character.TargetPosition = GameUtils.GetRandomPosition(character.Transform.position, 5f);
+            UpdatePath(seeker, character);
+            return;
+        }
+
         if (Time.time - lastPathUpdateTime > pathUpdateInterval)
         {
             lastPathUpdateTime = Time.time;
@@ -62,15 +68,16 @@ public class CharacterFollowState : CharacterBaseState
         float distanceToWaypoint = Vector3.Distance(character.Transform.position, path.vectorPath[currentWaypoint]);
         if (distanceToWaypoint < changeWaypointDistance)
         {
-            currentWaypoint++;
             character.NextPathPoint = path.vectorPath[currentWaypoint];
+            currentWaypoint++;
         }
 
         float distanceToTarget = Vector3.Distance(character.Transform.position, character.TargetPosition);
 
         if (distanceToTarget < arrivalDistance)
         {
-            character.CharacterStateManager.OnSelectNextState(NPCManager.UnitActionType);
+            character.CharacterStateManager.OnSelectNextState(NPCManager.AssignedTask);
+            return;
         }
 
         Vector3 direction = (path.vectorPath[currentWaypoint] - character.Transform.position).normalized;

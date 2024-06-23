@@ -33,7 +33,7 @@ public class CharacterWorkingState : CharacterBaseState
         //}
 
         character.Target = UnitUtils.FindClosestTarget(character.Transform, TagType.City);
-        characterManager.UnitActionType = UnitActionType.Depositing;
+        characterManager.AssignedTask = UnitTaskType.Depositing;
     }
 
     public override void Update(ICharacterManager character)

@@ -29,26 +29,32 @@ public class CharacterStateManager : MonoBehaviour
         CurrentState.OnEnter(characterManager);
     }
 
-    public void OnSelectNextState(UnitActionType action)
+    public void OnSelectNextState(UnitTaskType task)
     {
-        switch (action)
+        switch (task)
         {
-            case UnitActionType.Idling:
+            case UnitTaskType.Idling:
                 OnStateChangeRequested(CharacterState.Idle);
                 break;            
-            case UnitActionType.Gathering:
+            case UnitTaskType.Gathering:
                 OnStateChangeRequested(CharacterState.Working);
                 break;
-            case UnitActionType.Depositing:
+            case UnitTaskType.Depositing:
                 NPCManager GetNPCManager = characterManager as NPCManager;
                 characterManager.Target = UnitUtils.FindClosestTarget(characterManager.Transform, TagType.City);
                 characterManager.TargetPosition = characterManager.Target.transform.position;
                 OnStateChangeRequested(CharacterState.Following);
                 break;
-            case UnitActionType.Wandering:
+            case UnitTaskType.Wandering:
+                OnStateChangeRequested(CharacterState.Idle);
                 characterManager.TargetPosition = GameUtils.GetRandomPosition(characterManager.Transform.position, 10f);
-                OnStateChangeRequested(CharacterState.Following);
+                Invoke(nameof(ChangeToFollowingState), 2f); ;
                 break;
         }
+    }
+
+    private void ChangeToFollowingState()
+    {
+        OnStateChangeRequested(CharacterState.Following);
     }
 }

@@ -3,7 +3,7 @@ using Pathfinding;
 public class NPCManager : CharacterManager, INPCManager
 {
     public ResourceType AssignedResource { get; set; } = ResourceType.Nothing;
-    public UnitActionType UnitActionType { get; set; } = UnitActionType.Idling;
+    public UnitTaskType AssignedTask { get; set; } = UnitTaskType.Idling;
 
     public string unitActionTypeString;
     public DynamicGridObstacle DynamicGridObstacle { get; set; }
@@ -15,11 +15,11 @@ public class NPCManager : CharacterManager, INPCManager
     {
         base.Start();
         DynamicGridObstacle = gameObject.AddComponent<DynamicGridObstacle>();
+        unitActionTypeString = AssignedTask.ToString(); //remove once panel
     }
     protected override void Update()
     {
         base.Update();
-        unitActionTypeString = UnitActionType.ToString();
     }
 
     public void FindWork(ResourceType newAssignedResource)
@@ -27,7 +27,7 @@ public class NPCManager : CharacterManager, INPCManager
         this.AssignedResource = newAssignedResource;
         Target = ResourceUtils.FindClosestResource(this.transform, this.AssignedResource);
         TargetPosition = Target.transform.position;
-        this.UnitActionType = UnitActionType.Gathering;
+        this.AssignedTask = UnitTaskType.Gathering;
         CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
     }
 }

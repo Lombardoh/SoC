@@ -17,19 +17,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     public override void HandleAllMovement()
     {
         base.HandleAllMovement();
-        HandleRotation();
-        if (!CheckGrounded()) 
-        {
-            HandleAiredMovement();
-            return;
-        };
         HandleGroundedMovement();
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundDistance);
     }
 
     public void GetVerticalAndHorizontalMovement()
@@ -37,11 +25,6 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         verticalMovement = PlayerInputManager.instance.verticalInput;
         horizontalMovement = PlayerInputManager.instance.horitontalInput;
     }    
-    public void HandleAiredMovement()
-    {
-        moveDirection.y -= gravityForce;
-        player.CharacterController.Move(moveDirection * Time.deltaTime);
-    }
     private void HandleGroundedMovement()
     {
         GetVerticalAndHorizontalMovement();

@@ -2,16 +2,13 @@ using UnityEngine;
 
 public class CharacterLocomotionManager : MonoBehaviour
 {
+    public CharacterManager character;
     public Transform groundCheckTransform;
     public LayerMask groundLayer;
-    public float groundDistance = 0.1f;
-    public float jumpForce = 20;
-    public float gravityForce = 9.8f;
 
     [SerializeField] private bool isGrounded;
     protected Vector3 moveDirection;
     public CharacterController characterController;
-    public CharacterManager character;
 
     [SerializeField] float walkingSpeed = 2;
     [SerializeField] float runningSpeed = 5;
@@ -80,17 +77,7 @@ public class CharacterLocomotionManager : MonoBehaviour
         character= GetComponent<CharacterManager>();
         currentSpeed = runningSpeed;
     }
-    public void AttempToPerformJump()
-    {
-        moveDirection.Normalize();
-        moveDirection.y = jumpForce;
-        characterController.Move(moveDirection * Time.deltaTime);
-    }
-    protected virtual bool CheckGrounded()
-    {
-        IsGrounded = Physics.Raycast(transform.position, Vector3.down, groundDistance, groundLayer);
-        return IsGrounded;
-    }
+
     public virtual void HandleAllMovement()
     {
         RotateTowards();
@@ -98,6 +85,7 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     public virtual void RotateTowards()
     {
-        transform.LookAt(character.NextPathPoint);
+        Vector3 lookAtTarget = new Vector3(character.NextPathPoint.x, transform.position.y, character.NextPathPoint.z);
+        transform.LookAt(lookAtTarget);
     }
 }

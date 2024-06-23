@@ -1,5 +1,5 @@
 public interface INPCManager
 {
-    public UnitActionType UnitActionType { get; set; }
+    public UnitTaskType AssignedTask { get; set; }
     public ResourceType AssignedResource { get; set; }
 }

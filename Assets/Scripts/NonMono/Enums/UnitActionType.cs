@@ -1,4 +1,4 @@
-public enum UnitActionType
+public enum UnitTaskType
 {
     Idling,
     Gathering,
