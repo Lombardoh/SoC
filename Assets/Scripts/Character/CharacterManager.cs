@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, ITickListener
 {
-    Character character;
-    public GameObject Target { get; set; }
-    public Vector3 TargetPosition { get; set; }
+    protected Character character;
+    [SerializeField] private GameObject target;
+    public GameObject Target { get { return target; } set { target = value; } }
+
+    public Vector3 TargetPosition { get { return Target.transform.position; }}
     public Vector3 NextPathPoint { get; set; }
 
     public CharacterStateManager CharacterStateManager { get; set; }
@@ -40,15 +42,9 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     {
         CharacterStateManager.OnStateChangeRequested(CharacterState.Hurt);
     }    
-    public void OnTicked()
+    public virtual void OnTicked()
     {
-        character.ResourceAmount += 1;
-        if (character.ResourceAmount >= character.ResourceCapacity)
-        {
-            Target = UnitUtils.FindClosestTarget(this.transform, TagType.City);
-            TargetPosition = Target.transform.position;
-            CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
-        }
+
     }
     public void EmptyResource()
     {

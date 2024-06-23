@@ -1,10 +1,12 @@
+using UnityEngine;
+
 public class MonsterDenManager : SettlementManager
 {
-    MonsterDenUnitsManager cityUnitsManager;
+    MonsterDenUnitsManager monsterDenUnitsManager;
     protected override void Awake()
     {
         base.Awake();
-        cityUnitsManager = settlementUnitsManager as MonsterDenUnitsManager;
+        monsterDenUnitsManager = settlementUnitsManager as MonsterDenUnitsManager;
     }
     public override void OnTicked()
     {
@@ -13,8 +15,7 @@ public class MonsterDenManager : SettlementManager
         {
             settlement.Resources[ResourceType.Population] += 1;
             growPopulation = 0;
-            cityUnitsManager.UpdatePopulation();
-
+            monsterDenUnitsManager.UpdatePopulation();
         }
     }
 }

@@ -4,7 +4,7 @@ public class Character
     public int ResourceCapacity { get; set; }
     public Character(int resourceAmount, int resourceCapacity)
     {
-        ResourceAmount = resourceAmount;
+        ResourceAmount = resourceAmount + 15;
         ResourceCapacity = resourceCapacity;
     }
 }

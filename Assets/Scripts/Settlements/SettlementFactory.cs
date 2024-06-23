@@ -5,7 +5,7 @@ public static class SettlementFactory
         switch (type) 
         {
             case SettlementType.City:
-                return new City(0,1,0,0);            
+                return new City(0,1,0,10);            
             case SettlementType.MonsterDen:
                 return new MonsterDen(0,1);
         }

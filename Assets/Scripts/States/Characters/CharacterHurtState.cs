@@ -4,7 +4,7 @@ public class CharacterHurtState : CharacterBaseState
 {
     public override void OnEnter(ICharacterManager character)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
         character.CharacterAnimatorManager.UpdateAnimatorWasHurtParameter(true);
     }
     public override void OnExit(ICharacterManager character)

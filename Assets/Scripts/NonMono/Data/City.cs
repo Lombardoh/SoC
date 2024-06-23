@@ -6,9 +6,9 @@ public class City: Settlement
     public City(int population, float growth, int wood, int stone)
     {
         Growth = growth;
-        Resources[ResourceType.Stone] = stone;
-        Resources[ResourceType.Wood] = wood;
         Resources[ResourceType.Population] = population;
+        Resources[ResourceType.Wood] = wood;
+        Resources[ResourceType.Stone] = stone;
     }
     public ResourceType GetResourceWithLowestAmount()
     {

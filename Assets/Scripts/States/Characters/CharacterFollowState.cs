@@ -6,7 +6,7 @@ public class CharacterFollowState : CharacterBaseState
     private int currentWaypoint;
     private Path path;
     private readonly float changeWaypointDistance = 2f;
-    private readonly float arrivalDistance = 5f;
+    private readonly float arrivalDistance = 3f;
     private readonly float pathUpdateInterval = 0.5f;
     private float lastPathUpdateTime = 0f;
     private INPCManager NPCManager { get; set; }
@@ -40,18 +40,20 @@ public class CharacterFollowState : CharacterBaseState
             UpdatePath(seeker, character);
         }
 
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0.5f);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(true);
     }
     public override void OnExit(ICharacterManager character)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
     }
     public override void Update(ICharacterManager character)
     {
-        if (path == null || currentWaypoint > path.vectorPath.Count)
+        if (path == null || path.vectorPath == null || currentWaypoint > path.vectorPath.Count)
         {
-            character.TargetPosition = GameUtils.GetRandomPosition(character.Transform.position, 5f);
-            UpdatePath(seeker, character);
+            if(NPCManager.AssignedTask == UnitTaskType.Wandering)
+            {
+                character.CharacterStateManager.OnSelectNextState(NPCManager.AssignedTask);
+            }
             return;
         }
 
@@ -65,23 +67,25 @@ public class CharacterFollowState : CharacterBaseState
             }
         }
 
-        float distanceToWaypoint = Vector3.Distance(character.Transform.position, path.vectorPath[currentWaypoint]);
+
+        Vector3 flattenedPathPoint = new Vector3(path.vectorPath[currentWaypoint].x, 0, path.vectorPath[currentWaypoint].z);
+        float distanceToWaypoint = Vector3.Distance(character.Transform.position, flattenedPathPoint);
         if (distanceToWaypoint < changeWaypointDistance)
         {
             character.NextPathPoint = path.vectorPath[currentWaypoint];
             currentWaypoint++;
         }
 
-        float distanceToTarget = Vector3.Distance(character.Transform.position, character.TargetPosition);
-
+        Vector3 flattenedTargetPosition = new Vector3(character.TargetPosition.x, 0, character.TargetPosition.z);
+        float distanceToTarget = Vector3.Distance(character.Transform.position, flattenedTargetPosition);
         if (distanceToTarget < arrivalDistance)
         {
-            character.CharacterStateManager.OnSelectNextState(NPCManager.AssignedTask);
+            character.CharacterStateManager.OnSelectNextState(NPCManager.NextAssignedTask);
             return;
         }
 
-        Vector3 direction = (path.vectorPath[currentWaypoint] - character.Transform.position).normalized;
+        Vector3 direction = (flattenedPathPoint - character.Transform.position).normalized;
         character.CharacterController.Move(Time.deltaTime * 5f * direction);
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(direction.x, direction.z);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(true);
     }
 }

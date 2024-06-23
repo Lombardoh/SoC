@@ -891,6 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755bffec69f10ff4c8c6b5654b410b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
   resource: 0
   unitActionTypeString: 
 --- !u!114 &7137699848275853842

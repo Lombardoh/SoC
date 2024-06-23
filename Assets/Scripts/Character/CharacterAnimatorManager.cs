@@ -8,25 +8,24 @@ public class CharacterAnimatorManager : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-    public void UpdateAnimatorMovementParameter(float horizontalValue, float verticalValue)
+    public void UpdateAnimatorMovementParameter(bool isWalking)
     {
-        animator.SetFloat("Horizontal", horizontalValue);
-        animator.SetFloat("Vertical", verticalValue);
+        animator.SetBool("IsWalking", isWalking);
     }
 
     public void UpdateAnimatorAttackParameter(bool isAttacking)
     {
-        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("IsAttacking", isAttacking);
     }       
     
-    public void UpdateAnimatorWorkingParameter(bool isWoking)
+    public void UpdateAnimatorWorkingParameter(bool isWorking)
     {
-        animator.SetBool("Working", isWoking);
+        animator.SetBool("IsWorking", isWorking);
     }    
     
     public void UpdateAnimatorGroundingParameter(bool isGrounded)
     {
-        animator.SetBool("isGrounded", isGrounded);
+        animator.SetBool("IsGrounded", isGrounded);
     }    
     public void UpdateAnimatorWasHurtParameter(bool wasHurt)
     {

@@ -3,23 +3,22 @@ using UnityEngine;
 public class CharacterDepositingState : CharacterBaseState
 {
     private CharacterManager characterManager;
-    private INPCManager NPCManager;
+    private INPCManager _NPCManager;
     public override void OnEnter(ICharacterManager character)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
+        character.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(true);
         characterManager = character as CharacterManager;
-        NPCManager = character as INPCManager;
+        _NPCManager = character as INPCManager;
         IDepositable depositable = characterManager.Target.GetComponent<IDepositable>();
-        depositable.Deposite(NPCManager.AssignedResource, characterManager.GetResourceAmount());
+        depositable.Deposite(_NPCManager.AssignedResource, characterManager.GetResourceAmount());
         characterManager.EmptyResource();
-        character.CharacterStateManager.OnStateChangeRequested(CharacterState.Following);
-        NPCManager.AssignedTask = UnitTaskType.Gathering;
+        _NPCManager.NextAssignedTask = UnitTaskType.GoingToGather;
+        character.CharacterStateManager.OnSelectNextState(_NPCManager.NextAssignedTask);
     }
     
     public override void OnExit(ICharacterManager character)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(false);
-        character.Target = ResourceUtils.FindClosestResource(character.Transform, ResourceType.Wood);
     }
 
     public override void Update(ICharacterManager character)

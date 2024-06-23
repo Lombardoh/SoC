@@ -14,7 +14,6 @@ public class CityManager : SettlementManager
             settlement.Resources[ResourceType.Population] += 1;
             growPopulation = 0;
             cityUnitsManager.UpdatePopulation();
-
         }
     }
 }

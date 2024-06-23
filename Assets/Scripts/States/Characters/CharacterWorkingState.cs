@@ -1,18 +1,17 @@
 using UnityEngine;
-
 public class CharacterWorkingState : CharacterBaseState
 {
-    private INPCManager characterManager;
+    private INPCManager _NPCManager;
     public override void OnEnter(ICharacterManager character)
     {
-        characterManager = character as INPCManager;
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(0, 0);
+        _NPCManager = character as INPCManager;
+        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
         character.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(true);
-
         if (character is ITickListener tickListener)
         {
             tickListener.SubscribeToTicks(TickTime.Large);
         }
+        _NPCManager.NextAssignedTask = UnitTaskType.GoingToDeposit;
 
         //if (character.Target.TryGetComponent<ITickListener>(out var target))
         //{
@@ -27,13 +26,6 @@ public class CharacterWorkingState : CharacterBaseState
         {
             tickListener.UnsubscribeToTicks(TickTime.Large);
         }
-        //if (character.Target.TryGetComponent<ITickListener>(out var target))
-        //{
-        //    target.UnsubscribeToTicks(TickTime.Large);
-        //}
-
-        character.Target = UnitUtils.FindClosestTarget(character.Transform, TagType.City);
-        characterManager.AssignedTask = UnitTaskType.Depositing;
     }
 
     public override void Update(ICharacterManager character)
