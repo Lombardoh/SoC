@@ -23,9 +23,9 @@ public class SettlementManager : MonoBehaviour, IPointerClickHandler, ITickListe
     {
         return settlement.Resources;
     }
-    public int CheckPopulation()
+    public int GetResourceAmount(ResourceType resourceType)
     {
-        return settlement.Resources[ResourceType.Population];
+        return settlement.Resources[resourceType];
     }
     public SettlementUIResourceManager GetCityUIResourceManager()
     { 

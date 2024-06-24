@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class MonsterDenManager : SettlementManager
 {
     MonsterDenUnitsManager monsterDenUnitsManager;

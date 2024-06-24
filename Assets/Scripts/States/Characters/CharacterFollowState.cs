@@ -6,7 +6,7 @@ public class CharacterFollowState : CharacterBaseState
     private int currentWaypoint;
     private Path path;
     private readonly float changeWaypointDistance = 2f;
-    private readonly float arrivalDistance = 3f;
+    private readonly float arrivalDistance = 4f;
     private readonly float pathUpdateInterval = 0.5f;
     private float lastPathUpdateTime = 0f;
     private INPCManager NPCManager { get; set; }

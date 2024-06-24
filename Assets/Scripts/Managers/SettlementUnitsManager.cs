@@ -18,7 +18,7 @@ public class SettlementUnitsManager : MonoBehaviour, IUnitManager
 
     public NPCManager CreateUnit()
     {
-        if (units.Count >= settlementManager.CheckPopulation()) { return null; }
+        if (units.Count >= settlementManager.GetResourceAmount(ResourceType.Population)) { return null; }
 
         GameObject unit = Instantiate(unitPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         unit.transform.position = spawnTransform.position;

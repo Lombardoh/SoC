@@ -1,4 +1,6 @@
 public interface IDamageable
 {
-    void TakeDamage();
+    public void TakeDamage();
+    public void Die();
+    public void Dispose();
 }

@@ -30,5 +30,9 @@ public class CharacterAnimatorManager : MonoBehaviour
     public void UpdateAnimatorWasHurtParameter(bool wasHurt)
     {
         animator.SetBool("Hurt", wasHurt);
+    }    
+    public void UpdateAnimatorIsDyingParameter(bool isDying)
+    {
+        animator.SetBool("IsDying", isDying);
     }
 }

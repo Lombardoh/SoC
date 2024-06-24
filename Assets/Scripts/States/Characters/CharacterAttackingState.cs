@@ -1,27 +1,27 @@
-using UnityEngine;
-
 public class CharacterAttackingState : CharacterBaseState
 {
-    float duration;
-    float startTime;
+    INPCManager _NPCManager;
+    IDamageable target;
     public override void OnEnter(ICharacterManager character)
     {
-        duration = character.CharacterAnimatorManager.animator.GetCurrentAnimatorStateInfo(1).length;
-        character.CharacterAnimatorManager.UpdateAnimatorAttackParameter(true);
-        startTime = Time.time;
+        _NPCManager = character.Transform.GetComponent<INPCManager>();
+        target = character.Target.GetComponent<IDamageable>();
     }
 
     public override void OnExit(ICharacterManager character)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorAttackParameter(false);
-        InputEvents.OnSetIdle?.Invoke();
+
     }
 
     public override void Update(ICharacterManager character)
     {
-        if (Time.time - startTime > duration)
+        if (character.Target == null)
         {
-            character.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);
+            _NPCManager.NextAssignedTask = UnitTaskType.Wandering;
+            character.CharacterStateManager.OnSelectNextState(_NPCManager.NextAssignedTask);
+            return;
         }
+        target.Die();
+        character.Target = null;
     }
 }

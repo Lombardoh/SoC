@@ -8,5 +8,6 @@ public enum CharacterState
     Jumping,
     Following,
     Working,
-    Depositing
+    Depositing,
+    Dying
 }

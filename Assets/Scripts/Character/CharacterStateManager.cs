@@ -1,6 +1,4 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-
 public class CharacterStateManager : MonoBehaviour
 {
     public ICharacterManager characterManager;
@@ -55,9 +53,24 @@ public class CharacterStateManager : MonoBehaviour
                 OnStateChangeRequested(CharacterState.Depositing);
                 break;
             case UnitTaskType.Wandering:
+                if (characterManager.Target == null)
+                {
+                    GameObject assignedTarget = new(characterManager + " AssignedTarget");
+                    assignedTarget.transform.position = GameUtils.GetRandomPosition(characterManager.Transform.position, 10f, 15f);
+                    characterManager.Target = assignedTarget;
+                }
                 OnStateChangeRequested(CharacterState.Idle);
                 Invoke(nameof(ChangeToFollowingState), 3f); ;
-                break;
+                break;            
+            case UnitTaskType.Hunting:
+                _NPCManager.AssignedTask = UnitTaskType.Hunting;
+                _NPCManager.NextAssignedTask = UnitTaskType.Attacking;
+                OnStateChangeRequested(CharacterState.Following);
+                break;  
+            case UnitTaskType.Attacking:
+                _NPCManager.NextAssignedTask = UnitTaskType.Attacking;
+                OnStateChangeRequested(CharacterState.Attacking);
+                break;            
         }
     }
 

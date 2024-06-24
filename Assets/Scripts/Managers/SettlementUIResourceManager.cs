@@ -28,7 +28,7 @@ public class SettlementUIResourceManager : MonoBehaviour
             resourceText.transform.localPosition = positionOffset+ Vector3.right * 3;            
             
             resourceText = UIUtils.CreateResourceText(resourcePanel, resource.Value.ToString());
-            resourceText.transform.localPosition = positionOffset + Vector3.right * 9;
+            resourceText.transform.localPosition = positionOffset + Vector3.right * 12;
 
             index++;
         }

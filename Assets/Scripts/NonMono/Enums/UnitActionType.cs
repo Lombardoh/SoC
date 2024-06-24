@@ -5,5 +5,7 @@ public enum UnitTaskType
     Gathering,
     GoingToDeposit,
     Depositing,
-    Wandering
+    Wandering,
+    Hunting,
+    Attacking,
 }
