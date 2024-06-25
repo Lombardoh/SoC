@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using UnityEngine;
 
 public class City: Settlement
 {
@@ -24,7 +24,6 @@ public class City: Settlement
                 lowestResource = kvp.Key;
             }
         }
-
         return lowestResource;
     }
 }

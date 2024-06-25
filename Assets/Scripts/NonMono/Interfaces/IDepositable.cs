@@ -4,12 +4,13 @@ public interface IDepositable
 {
     public Dictionary<ResourceType, int> GetResources();
     public ResourceType GetLowestResource();
-    public SettlementUIResourceManager GetCityUIResourceManager();
+    public bool GetSelected();
+    public SettlementUIResourceManager GetSettlementUIResourceManager();
     public void Deposite(ResourceType resourceType, int amount)
     {
         Dictionary<ResourceType, int> resources = GetResources();
-        SettlementUIResourceManager cityResourceManager = GetCityUIResourceManager();
+        SettlementUIResourceManager settlementUIResourceManager = GetSettlementUIResourceManager();
         resources[resourceType] += amount;
-        cityResourceManager.UpdateResources();
+        settlementUIResourceManager.UpdateResources();
     }
 }

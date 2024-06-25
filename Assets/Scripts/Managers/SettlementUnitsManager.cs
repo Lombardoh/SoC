@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Resources;
 using UnityEngine;
 
 public class SettlementUnitsManager : MonoBehaviour, IUnitManager
@@ -23,6 +24,7 @@ public class SettlementUnitsManager : MonoBehaviour, IUnitManager
         GameObject unit = Instantiate(unitPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         unit.transform.position = spawnTransform.position;
         NPCManager NPC = unit.GetComponent<NPCManager>();
+        resourceUIManager.UpdateResources();
         units.Add(NPC);
         return NPC;
     }

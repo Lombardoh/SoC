@@ -1,9 +1,8 @@
 using UnityEngine;
-using TMPro;
 
 public class SettlementUIResourceManager : MonoBehaviour
 {
-    SettlementManager settlementManager;
+    public SettlementManager settlementManager;
     public Transform resourcePanel;
     private void Awake()
     {
@@ -15,6 +14,10 @@ public class SettlementUIResourceManager : MonoBehaviour
         foreach (Transform child in resourcePanel)
         {
             Destroy(child.gameObject);
+        }
+        if (settlementManager.Selected)
+        {
+            ResourceEvents.OnUpdateBuildingUIManager?.Invoke(settlementManager);
         }
 
         float yOffset = 2f;
@@ -28,7 +31,7 @@ public class SettlementUIResourceManager : MonoBehaviour
             resourceText.transform.localPosition = positionOffset+ Vector3.right * 3;            
             
             resourceText = UIUtils.CreateResourceText(resourcePanel, resource.Value.ToString());
-            resourceText.transform.localPosition = positionOffset + Vector3.right * 12;
+            resourceText.transform.localPosition = positionOffset + Vector3.right * 15;
 
             index++;
         }

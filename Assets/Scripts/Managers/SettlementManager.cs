@@ -13,7 +13,11 @@ public class SettlementManager : MonoBehaviour, IPointerClickHandler, ITickListe
     public GameObject settlementPanel;
     public TextMeshProUGUI resources;
     [SerializeField]protected float growPopulation = 19;
-
+    public bool Selected { get; set; } = false;
+    public bool GetSelected()
+    {
+        return Selected;
+    }    
     public ResourceType GetLowestResource()
     {
         City city = settlement as City;
@@ -27,9 +31,13 @@ public class SettlementManager : MonoBehaviour, IPointerClickHandler, ITickListe
     {
         return settlement.Resources[resourceType];
     }
-    public SettlementUIResourceManager GetCityUIResourceManager()
+    public SettlementUIResourceManager GetSettlementUIResourceManager()
     { 
         return settlementUIResourceManager;
+    }
+    public SettlementManager GetSettlementManager()
+    {
+        return this;
     }
 
     protected virtual void Awake()
@@ -45,7 +53,10 @@ public class SettlementManager : MonoBehaviour, IPointerClickHandler, ITickListe
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        settlementPanel.SetActive(true);
+        settlementPanel.SetActive(!settlementPanel.activeSelf);
+        Selected = !Selected;
+        Debug.Log(Selected);
+        BuildingEvents.OnUpdateSelectedBuilding?.Invoke(this);
     }  
     public virtual void OnTicked() { }
 }
