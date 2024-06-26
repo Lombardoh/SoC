@@ -1,19 +1,22 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class SettlementManager : MonoBehaviour, IPointerClickHandler, ITickListener, IDepositable, IResource
 {
-    public SettlementType settlementType;
+    #region related scripts
     protected Settlement settlement;
     protected SettlementUIResourceManager settlementUIResourceManager;
     protected SettlementUnitsManager settlementUnitsManager;
     protected IUnitManager iUnitManager;
-    public GameObject settlementPanel;
-    public TextMeshProUGUI resources;
-    [SerializeField]protected float growPopulation = 19;
+    #endregion
+
     public bool Selected { get; set; } = false;
+    public SettlementType settlementType;
+    public GameObject settlementPanel;
+
+    [SerializeField] protected float growPopulation = 19;
+
     public bool GetSelected()
     {
         return Selected;
@@ -39,7 +42,6 @@ public class SettlementManager : MonoBehaviour, IPointerClickHandler, ITickListe
     {
         return this;
     }
-
     protected virtual void Awake()
     {
         settlement = SettlementFactory.CreateSettlement(settlementType);
@@ -55,7 +57,6 @@ public class SettlementManager : MonoBehaviour, IPointerClickHandler, ITickListe
     {
         settlementPanel.SetActive(!settlementPanel.activeSelf);
         Selected = !Selected;
-        Debug.Log(Selected);
         BuildingEvents.OnUpdateSelectedBuilding?.Invoke(this);
     }  
     public virtual void OnTicked() { }
