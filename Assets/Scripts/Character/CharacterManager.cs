@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, ITickListener
+public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, ITickListener, ICombatable
 {
     protected Character character;
     [SerializeField] private GameObject target;
@@ -57,5 +57,9 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     public int GetResourceAmount()
     {
         return character.ResourceAmount;
+    }
+    public void StartCombat()
+    {
+        CharacterStateManager.OnStateChangeRequested(CharacterState.Fithing);
     }
 }

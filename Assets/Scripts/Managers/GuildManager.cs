@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 public class GuildManager : SettlementManager
 {
     public Guild Guild {  get; private set; }

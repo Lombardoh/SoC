@@ -15,6 +15,7 @@ public class CharacterStateManager : MonoBehaviour
     void Update()
     {
         if (characterManager == null) return;
+        if (CurrentState == null) { OnStateChangeRequested(CharacterState.Idle); }
         CurrentState.Update(characterManager);
     }
 

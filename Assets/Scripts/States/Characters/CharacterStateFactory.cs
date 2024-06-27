@@ -23,7 +23,9 @@ public static class StateFactory
             case CharacterState.Depositing:
                 return new CharacterDepositingState();              
             case CharacterState.Dying:
-                return new CharacterDyingState();    
+                return new CharacterDyingState();               
+            case CharacterState.Fithing:
+                return new CharacterFightingState();    
         }
         return null;
     }

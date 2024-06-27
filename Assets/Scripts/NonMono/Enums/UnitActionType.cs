@@ -7,5 +7,6 @@ public enum UnitTaskType
     Depositing,
     Wandering,
     Hunting,
+    Combat,
     Attacking,
 }

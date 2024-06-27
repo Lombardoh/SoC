@@ -12,13 +12,15 @@ public class VisualDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        CharacterManager.Target.TryGetComponent<ITemporal>(out ITemporal oldTarget);
-        if (oldTarget != null)
+        if (CharacterManager.Target != null)
         {
-            oldTarget.Dispose();
+            CharacterManager.Target.TryGetComponent<ITemporal>(out ITemporal oldTarget);
+            oldTarget?.Dispose();
         }
+
         CharacterManager.Target = other.transform.gameObject;
-        INPCManager.NextAssignedTask = UnitTaskType.Hunting;
-        CharacterManager.CharacterStateManager.OnSelectNextState(INPCManager.NextAssignedTask);
+
+        CharacterManager.Target.TryGetComponent<ICombatable>(out ICombatable fighter);
+        fighter?.StartCombat();
     }
 }
