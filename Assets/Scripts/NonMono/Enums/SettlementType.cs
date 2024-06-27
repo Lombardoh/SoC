@@ -1,5 +1,6 @@
 public enum SettlementType
 {
     City,
-    MonsterDen
+    MonsterDen,
+    Guild
 }

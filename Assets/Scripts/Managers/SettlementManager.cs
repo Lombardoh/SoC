@@ -14,7 +14,7 @@ public class SettlementManager : MonoBehaviour, IPointerClickHandler, ITickListe
     public bool Selected { get; set; } = false;
     public SettlementType settlementType;
     public GameObject settlementPanel;
-
+    [SerializeField] protected SettlementDataContainer settlementDataContainer;
     [SerializeField] protected float growPopulation = 19;
 
     public bool GetSelected()
@@ -44,7 +44,10 @@ public class SettlementManager : MonoBehaviour, IPointerClickHandler, ITickListe
     }
     protected virtual void Awake()
     {
-        settlement = SettlementFactory.CreateSettlement(settlementType);
+        Dictionary<ResourceType, int> resourceDict = settlementDataContainer.data[(int)settlementType].ToResourceDictionary();
+        int growth = settlementDataContainer.data[(int)settlementType].Growth;
+        settlement = SettlementFactory.CreateSettlement(settlementType, resourceDict, growth);
+
         settlementUIResourceManager = GetComponent<SettlementUIResourceManager>();
         settlementUnitsManager = GetComponent<SettlementUnitsManager>();
     }

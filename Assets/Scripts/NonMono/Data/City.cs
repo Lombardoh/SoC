@@ -1,14 +1,11 @@
-using UnityEngine;
+using System.Collections.Generic;
 
-public class City: Settlement
+public class City : Settlement
 {
-    
-    public City(int population, float growth, int wood, int stone)
+    public City(Dictionary<ResourceType, int> resources, int growth) : base(resources, growth)
     {
+        Resources = new Dictionary<ResourceType, int>(resources);
         Growth = growth;
-        Resources[ResourceType.Population] = population;
-        Resources[ResourceType.Wood] = wood;
-        Resources[ResourceType.Stone] = stone;
     }
     public ResourceType GetResourceWithLowestAmount()
     {

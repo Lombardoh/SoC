@@ -1,8 +1,9 @@
+using System.Collections.Generic;
+
 public class MonsterDen: Settlement
 {
-    public MonsterDen(int population, float growth)
+    public MonsterDen(Dictionary<ResourceType, int> resources, int growth) : base(resources, growth)
     {
-        Resources[ResourceType.Population] = population;
-        Growth = growth;
+        
     }
 }
