@@ -1,3 +1,6 @@
+using System.Collections;
+using UnityEngine;
+
 public class CharacterAttackingState : CharacterBaseState
 {
     INPCManager _NPCManager;
@@ -6,6 +9,9 @@ public class CharacterAttackingState : CharacterBaseState
     {
         _NPCManager = character.Transform.GetComponent<INPCManager>();
         target = character.Target.GetComponent<IDamageable>();
+        float randomNumber = Random.Range(1, 5);
+        character.LockedInAnimation = true;
+        character.Transform.GetComponent<MonoBehaviour>().StartCoroutine(InvokeAttack(character, randomNumber));
     }
 
     public override void OnExit(ICharacterManager character)
@@ -15,13 +21,25 @@ public class CharacterAttackingState : CharacterBaseState
 
     public override void Update(ICharacterManager character)
     {
-        if (character.Target == null)
-        {
-            _NPCManager.NextAssignedTask = UnitTaskType.Wandering;
-            character.CharacterStateManager.OnSelectNextState(_NPCManager.NextAssignedTask);
-            return;
-        }
-        target.Die();
-        character.Target = null;
+        character.CharacterLocomotionManager.LookAtTarget();
+    }
+
+    private IEnumerator InvokeAttack(ICharacterManager character, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Attack(character);
+    }
+
+    private void Attack(ICharacterManager character)
+    {
+        character.CharacterAnimatorManager.UpdateAnimatorAttackParameter(true);
+        character.AttackHitBox.gameObject.SetActive(true);
+    }
+
+    private void KeepFigthing(ICharacterManager character)
+    {
+        if (target == null) { character.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle); return; }
+        character.CharacterStateManager.OnStateChangeRequested(CharacterState.Fighting); 
+        return;
     }
 }

@@ -7,7 +7,7 @@ public class CharacterDyingState : CharacterBaseState
     {
         damageable = character.Transform.GetComponent<IDamageable>();
         character.CharacterAnimatorManager.UpdateAnimatorIsDyingParameter(true);
-        character.Transform.GetComponent<MonoBehaviour>().Invoke(nameof(Dispose), 2f);
+        character.Transform.GetComponent<MonoBehaviour>().Invoke(nameof(Dispose), 5f);
     }
 
     public override void OnExit(ICharacterManager character)

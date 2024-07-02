@@ -22,6 +22,7 @@ public class NPCManager : CharacterManager, INPCManager
     protected override void Update()
     {
         base.Update();
+        unitActionTypeString = AssignedTask.ToString();
     }
     public override void OnTicked()
     {

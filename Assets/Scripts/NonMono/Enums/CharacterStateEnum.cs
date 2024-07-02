@@ -10,5 +10,5 @@ public enum CharacterState
     Working,
     Depositing,
     Dying,
-    Fithing
+    Fighting
 }

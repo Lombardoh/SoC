@@ -13,5 +13,8 @@ public interface ICharacterManager
     CharacterLocomotionManager CharacterLocomotionManager { get; set; }
 
     ITickListener TickListener { get; set; }
+
+    public Transform AttackHitBox { get; set; }
+    public bool LockedInAnimation { get; set; }
 }
 

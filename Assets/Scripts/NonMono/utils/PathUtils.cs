@@ -1,18 +1,16 @@
 using Pathfinding;
+using UnityEngine;
 public static class PathUtils
 {
-    public static Path UpdatePath(Seeker seeker, ICharacterManager character)
+    public static void UpdatePath(Seeker seeker, ICharacterManager character)
     {
-        Path path = seeker.StartPath(character.Transform.position, character.TargetPosition, (p) => OnPathComplete(p));
-        return path;
+        //seeker.StartPath(character.Transform.position, character.TargetPosition, (p) => OnPathComplete(p, character));
     }
-    public static Path OnPathComplete(Path p)
+    public static void OnPathComplete(Path p, ref Path path, ref int currentWaypoint, ICharacterManager character)
     {
-        Path path = p;
-        if (!p.error)
-        {
-            path = p;
-        }
-        return path;
+        if (p.error) { return; }
+        path = p;
+        currentWaypoint = 0;
+        character.NextPathPoint = path.vectorPath[currentWaypoint];
     }
 }

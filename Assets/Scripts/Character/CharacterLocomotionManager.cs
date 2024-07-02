@@ -85,7 +85,12 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     public virtual void RotateTowards()
     {
-        Vector3 lookAtTarget = new Vector3(character.NextPathPoint.x, transform.position.y, character.NextPathPoint.z);
+        Vector3 lookAtTarget = new(character.NextPathPoint.x, transform.position.y, character.NextPathPoint.z);
+        transform.LookAt(lookAtTarget);
+    }    
+    public virtual void LookAtTarget()
+    {
+        Vector3 lookAtTarget = new(character.TargetPosition.x, transform.position.y, character.TargetPosition.z);
         transform.LookAt(lookAtTarget);
     }
 }

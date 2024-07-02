@@ -13,6 +13,8 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     public ITickListener TickListener { get; set; }
     public Transform Transform { get { return transform; }}
     public CharacterController CharacterController { get; set; }
+    public bool LockedInAnimation { get; set; } = false;
+    public Transform AttackHitBox { get; set; }
 
     public int resource; //remove this once character have their own resource panels
     protected virtual void Awake()
@@ -21,13 +23,16 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
         CharacterAnimatorManager = GetComponent<CharacterAnimatorManager>();
         CharacterLocomotionManager = GetComponent<CharacterLocomotionManager>();
         CharacterController = GetComponent<CharacterController>();
+        AttackHitBox = GameUtils.GetInactiveChild(transform, "AttackHitbox");        
     }
     protected virtual void Start()
     {
         character = new(0,20);
+        
     }
     protected virtual void Update()
     {
+        if (LockedInAnimation) { return; }
         CharacterLocomotionManager.HandleAllMovement();
         resource = character.ResourceAmount; //remove this once character have their own resource panels
     }
@@ -60,6 +65,6 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     }
     public void StartCombat()
     {
-        CharacterStateManager.OnStateChangeRequested(CharacterState.Fithing);
+        CharacterStateManager.OnStateChangeRequested(CharacterState.Fighting);
     }
 }

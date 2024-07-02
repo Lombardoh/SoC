@@ -19,8 +19,7 @@ public class VisualDetection : MonoBehaviour
         }
 
         CharacterManager.Target = other.transform.gameObject;
-
         CharacterManager.Target.TryGetComponent<ICombatable>(out ICombatable fighter);
-        fighter?.StartCombat();
+        if (fighter != null) { CharacterManager.StartCombat(); }
     }
 }

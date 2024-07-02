@@ -11,4 +11,24 @@ public static class GameUtils
 
         return new Vector3(x, center.y, z);
     }
+
+    public static Transform GetInactiveChild(Transform parent, string childName)
+    {
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform child = parent.GetChild(i);
+            if (child.name == childName)
+            {
+                return child;
+            }
+
+            Transform found = GetInactiveChild(child, childName);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+
+        return null;
+    }
 }
