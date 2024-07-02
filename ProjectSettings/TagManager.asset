@@ -8,6 +8,7 @@ TagManager:
   - Tree
   - Wood
   - Stone
+  - AttackHitbox
   layers:
   - Default
   - TransparentFX
@@ -21,8 +22,8 @@ TagManager:
   - Unit
   - Resource
   - HostileUnit
-  - 
-  - 
+  - Hitbox
+  - Detectors
   - 
   - 
   - 
