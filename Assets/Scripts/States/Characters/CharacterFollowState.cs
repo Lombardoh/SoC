@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CharacterFollowState : CharacterBaseState
 {
-    private readonly float changeWaypointDistance = 2f;
-    private readonly float arrivalDistance = 4f;
+    private readonly float changeWaypointDistance = 0.5f;
+    private readonly float arrivalDistance = 2f;
     private readonly float pathUpdateInterval = 0.5f;
     private float lastPathUpdateTime = 0f;
 
@@ -26,6 +26,7 @@ public class CharacterFollowState : CharacterBaseState
 
         NPCManager = _IUnitManager as INPCManager;
         seeker = (_IUnitManager as MonoBehaviour).GetComponent<Seeker>();
+        UpdatePath(seeker, _IUnitManager);
         _IUnitManager.CharacterAnimatorManager.UpdateAnimatorMovementParameter(true);
     }
     public override void OnExit(IUnitManager _IUnitManager)
@@ -42,26 +43,26 @@ public class CharacterFollowState : CharacterBaseState
             }
             return;
         }
-
         if (Time.time - lastPathUpdateTime > pathUpdateInterval)
         {
+            lastPathUpdateTime = Time.time;
            UpdatePath(seeker, _IUnitManager); 
         }
 
-        Vector3 flattenedPathPoint = new(path.vectorPath[currentWaypoint].x, 0, path.vectorPath[currentWaypoint].z);
-        float distanceToWaypoint = Vector3.Distance(_IUnitManager.Transform.position, flattenedPathPoint);
-        if (distanceToWaypoint < changeWaypointDistance)
-        {
-            currentWaypoint++;
-            _IUnitManager.NextPathPoint = path.vectorPath[currentWaypoint];
-        }
-
-        Vector3 flattenedTargetPosition = new(_IUnitManager.TargetPosition.x, 0, _IUnitManager.TargetPosition.z);
+        Vector3 flattenedTargetPosition = new(_IUnitManager.TargetPosition.x, _IUnitManager.Transform.position.y, _IUnitManager.TargetPosition.z);
         float distanceToTarget = Vector3.Distance(_IUnitManager.Transform.position, flattenedTargetPosition);
         if (distanceToTarget < arrivalDistance)
         {
             _IUnitManager.CharacterStateManager.OnSelectNextState(NPCManager.NextAssignedTask);
             return;
+        }
+
+        Vector3 flattenedPathPoint = new(path.vectorPath[currentWaypoint].x, _IUnitManager.Transform.position.y, path.vectorPath[currentWaypoint].z);
+        float distanceToWaypoint = Vector3.Distance(_IUnitManager.Transform.position, flattenedPathPoint);
+        if (distanceToWaypoint < changeWaypointDistance)
+        {
+            currentWaypoint++;
+            _IUnitManager.NextPathPoint = path.vectorPath[currentWaypoint];
         }
 
         Vector3 direction = (flattenedPathPoint - _IUnitManager.Transform.position).normalized;
