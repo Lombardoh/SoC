@@ -29,7 +29,7 @@ public class CharacterAnimatorManager : MonoBehaviour
     }    
     public void UpdateAnimatorWasHurtParameter(bool wasHurt)
     {
-        animator.SetBool("Hurt", wasHurt);
+        animator.SetBool("WasHurt", wasHurt);
     }    
     public void UpdateAnimatorIsDyingParameter(bool isDying)
     {

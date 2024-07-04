@@ -4,7 +4,8 @@ public class AttackHitbox : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
+        other.TryGetComponent<IDamageable>(out IDamageable damageable);
+        damageable?.TakeDamage();
     }
 
 }

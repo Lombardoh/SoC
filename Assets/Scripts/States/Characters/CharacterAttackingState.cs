@@ -5,18 +5,25 @@ public class CharacterAttackingState : CharacterBaseState
 {
     INPCManager _NPCManager;
     IDamageable target;
+    private Coroutine attackCoroutine;
+
     public override void OnEnter(ICharacterManager character)
     {
         _NPCManager = character.Transform.GetComponent<INPCManager>();
         target = character.Target.GetComponent<IDamageable>();
-        float randomNumber = Random.Range(1, 5);
+        float randomNumber = Random.Range(1, 20);
         character.LockedInAnimation = true;
-        character.Transform.GetComponent<MonoBehaviour>().StartCoroutine(InvokeAttack(character, randomNumber));
+        attackCoroutine = character.Transform.GetComponent<MonoBehaviour>().StartCoroutine(InvokeAttack(character, randomNumber));
     }
 
     public override void OnExit(ICharacterManager character)
     {
-
+        character.CharacterAnimatorManager.UpdateAnimatorAttackParameter(false);
+        character.AttackHitBox.gameObject.SetActive(false);
+        if (attackCoroutine == null) return;
+        
+        character.Transform.GetComponent<MonoBehaviour>().StopCoroutine(attackCoroutine);
+        attackCoroutine = null;
     }
 
     public override void Update(ICharacterManager character)
@@ -34,12 +41,5 @@ public class CharacterAttackingState : CharacterBaseState
     {
         character.CharacterAnimatorManager.UpdateAnimatorAttackParameter(true);
         character.AttackHitBox.gameObject.SetActive(true);
-    }
-
-    private void KeepFigthing(ICharacterManager character)
-    {
-        if (target == null) { character.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle); return; }
-        character.CharacterStateManager.OnStateChangeRequested(CharacterState.Fighting); 
-        return;
     }
 }

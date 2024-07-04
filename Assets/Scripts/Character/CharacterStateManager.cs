@@ -80,4 +80,15 @@ public class CharacterStateManager : MonoBehaviour
         characterManager.Target.transform.position = GameUtils.GetRandomPosition(transform.position, 10f, 15f);
         OnStateChangeRequested(CharacterState.Following);
     }
+
+    public void AttackJustFinished()
+    {
+        characterManager.Target.TryGetComponent<IDamageable>(out IDamageable damageable);
+        if (damageable != null) 
+        {
+            OnStateChangeRequested(CharacterState.Attacking);
+            return;
+        }
+        OnStateChangeRequested(CharacterState.Idle);
+    }
 }
