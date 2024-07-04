@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CharacterLocomotionManager : MonoBehaviour
 {
-    public CharacterManager character;
+    public UnitManager unitManager;
     public Transform groundCheckTransform;
     public LayerMask groundLayer;
 
@@ -74,7 +74,7 @@ public class CharacterLocomotionManager : MonoBehaviour
     protected virtual void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        character= GetComponent<CharacterManager>();
+        unitManager = GetComponent<UnitManager>();
         currentSpeed = runningSpeed;
     }
 
@@ -85,12 +85,12 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     public virtual void RotateTowards()
     {
-        Vector3 lookAtTarget = new(character.NextPathPoint.x, transform.position.y, character.NextPathPoint.z);
+        Vector3 lookAtTarget = new(unitManager.NextPathPoint.x, transform.position.y, unitManager.NextPathPoint.z);
         transform.LookAt(lookAtTarget);
     }    
     public virtual void LookAtTarget()
     {
-        Vector3 lookAtTarget = new(character.TargetPosition.x, transform.position.y, character.TargetPosition.z);
+        Vector3 lookAtTarget = new(unitManager.TargetPosition.x, transform.position.y, unitManager.TargetPosition.z);
         transform.LookAt(lookAtTarget);
     }
 }

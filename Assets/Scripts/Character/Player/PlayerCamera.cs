@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     public static PlayerCamera Instance;
-    public CharacterManager player;
+    public UnitManager player;
     public Camera cameraObject;
     [SerializeField] Transform cameraPivotTransform;
 

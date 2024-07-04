@@ -1,9 +1,5 @@
-using Unity.VisualScripting;
-using UnityEngine;
-
-public class VehicleManager : CharacterManager, IParentInteractable
+public class VehicleManager : UnitManager, IParentInteractable
 {
-
     protected override void Start()
     {
         base.Start();

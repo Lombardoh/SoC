@@ -1,4 +1,4 @@
-public interface IUnitManager
+public interface IUnitSpawner
 {
 
 }

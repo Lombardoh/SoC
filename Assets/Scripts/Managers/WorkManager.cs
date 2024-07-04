@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WorkManager : MonoBehaviour
 {
-    private List<CharacterManager> units = new ();
+    private List<UnitManager> units = new ();
     private void OnEnable()
     {
         WorkEvents.ChangeWorkingAmount += ChangeWorkingAmount;
@@ -19,7 +19,7 @@ public class WorkManager : MonoBehaviour
         UnitEvents.OnRequestUnit?.Invoke((unit) => OnUnitReceived(unit, work));
     }
 
-    private void OnUnitReceived(CharacterManager unit, WorkType work)
+    private void OnUnitReceived(UnitManager unit, WorkType work)
     {
 
     }

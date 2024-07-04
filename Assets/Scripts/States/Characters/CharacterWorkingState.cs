@@ -2,12 +2,12 @@ using UnityEngine;
 public class CharacterWorkingState : CharacterBaseState
 {
     private INPCManager _NPCManager;
-    public override void OnEnter(ICharacterManager character)
+    public override void OnEnter(IUnitManager _IUnitManager)
     {
-        _NPCManager = character as INPCManager;
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
-        character.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(true);
-        if (character is ITickListener tickListener)
+        _NPCManager = _IUnitManager as INPCManager;
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(true);
+        if (_IUnitManager is ITickListener tickListener)
         {
             tickListener.SubscribeToTicks(TickTime.Large);
         }
@@ -19,16 +19,16 @@ public class CharacterWorkingState : CharacterBaseState
         //}
     }
     
-    public override void OnExit(ICharacterManager character)
+    public override void OnExit(IUnitManager _IUnitManager)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(false);
-        if (character is ITickListener tickListener)
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorWorkingParameter(false);
+        if (_IUnitManager is ITickListener tickListener)
         {
             tickListener.UnsubscribeToTicks(TickTime.Large);
         }
     }
 
-    public override void Update(ICharacterManager character)
+    public override void Update(IUnitManager _IUnitManager)
     {
 
     }

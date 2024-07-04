@@ -1,6 +1,6 @@
 using Pathfinding;
 
-public class NPCManager : CharacterManager, INPCManager
+public class NPCManager : UnitManager, INPCManager
 {
     public ResourceType AssignedResource { get; set; } = ResourceType.Nothing;
     public UnitTaskType AssignedTask { get; set; } = UnitTaskType.Idling;
@@ -26,8 +26,8 @@ public class NPCManager : CharacterManager, INPCManager
     }
     public override void OnTicked()
     {
-        character.ResourceAmount += 1;
-        if (character.ResourceAmount >= character.ResourceCapacity)
+        unit.ResourceAmount += 1;
+        if (unit.ResourceAmount >= unit.ResourceCapacity)
         {
             CharacterStateManager.OnSelectNextState(NextAssignedTask);
         }

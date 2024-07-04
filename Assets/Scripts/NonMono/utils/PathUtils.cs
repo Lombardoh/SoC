@@ -2,15 +2,15 @@ using Pathfinding;
 using UnityEngine;
 public static class PathUtils
 {
-    public static void UpdatePath(Seeker seeker, ICharacterManager character)
+    public static void UpdatePath(Seeker seeker, IUnitManager _IUnitManager)
     {
         //seeker.StartPath(character.Transform.position, character.TargetPosition, (p) => OnPathComplete(p, character));
     }
-    public static void OnPathComplete(Path p, ref Path path, ref int currentWaypoint, ICharacterManager character)
+    public static void OnPathComplete(Path p, ref Path path, ref int currentWaypoint, IUnitManager _IUnitManager)
     {
         if (p.error) { return; }
         path = p;
         currentWaypoint = 0;
-        character.NextPathPoint = path.vectorPath[currentWaypoint];
+        _IUnitManager.NextPathPoint = path.vectorPath[currentWaypoint];
     }
 }

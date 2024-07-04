@@ -1,16 +1,16 @@
 public class CharacterJumpingState : CharacterBaseState
 {
-    public override void OnEnter(ICharacterManager character)
+    public override void OnEnter(IUnitManager _IUnitManager)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorGroundingParameter(false);
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorGroundingParameter(false);
     }
 
-    public override void OnExit(ICharacterManager character)
+    public override void OnExit(IUnitManager _IUnitManager)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorGroundingParameter(true);
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorGroundingParameter(true);
     }
 
-    public override void Update(ICharacterManager character)
+    public override void Update(IUnitManager _IUnitManager)
     {
     }
 }

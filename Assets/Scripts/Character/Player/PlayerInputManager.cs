@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerInputManager : MonoBehaviour
 {
     public static PlayerInputManager instance;
-    public CharacterManager player;
+    public UnitManager player;
     PlayerControls playerControls;
 
     private IInteractable interactableObject;

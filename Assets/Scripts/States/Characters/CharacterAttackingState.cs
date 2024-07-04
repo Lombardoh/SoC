@@ -7,39 +7,39 @@ public class CharacterAttackingState : CharacterBaseState
     IDamageable target;
     private Coroutine attackCoroutine;
 
-    public override void OnEnter(ICharacterManager character)
+    public override void OnEnter(IUnitManager _IUnitManager)
     {
-        _NPCManager = character.Transform.GetComponent<INPCManager>();
-        target = character.Target.GetComponent<IDamageable>();
+        _NPCManager = _IUnitManager.Transform.GetComponent<INPCManager>();
+        target = _IUnitManager.Target.GetComponent<IDamageable>();
         float randomNumber = Random.Range(1, 20);
-        character.LockedInAnimation = true;
-        attackCoroutine = character.Transform.GetComponent<MonoBehaviour>().StartCoroutine(InvokeAttack(character, randomNumber));
+        _IUnitManager.LockedInAnimation = true;
+        attackCoroutine = _IUnitManager.Transform.GetComponent<MonoBehaviour>().StartCoroutine(InvokeAttack(_IUnitManager, randomNumber));
     }
 
-    public override void OnExit(ICharacterManager character)
+    public override void OnExit(IUnitManager _IUnitManager)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorAttackParameter(false);
-        character.AttackHitBox.gameObject.SetActive(false);
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorAttackParameter(false);
+        _IUnitManager.AttackHitBox.gameObject.SetActive(false);
         if (attackCoroutine == null) return;
-        
-        character.Transform.GetComponent<MonoBehaviour>().StopCoroutine(attackCoroutine);
+
+        _IUnitManager.Transform.GetComponent<MonoBehaviour>().StopCoroutine(attackCoroutine);
         attackCoroutine = null;
     }
 
-    public override void Update(ICharacterManager character)
+    public override void Update(IUnitManager _IUnitManager)
     {
-        character.CharacterLocomotionManager.LookAtTarget();
+        _IUnitManager.CharacterLocomotionManager.LookAtTarget();
     }
 
-    private IEnumerator InvokeAttack(ICharacterManager character, float delay)
+    private IEnumerator InvokeAttack(IUnitManager _IUnitManager, float delay)
     {
         yield return new WaitForSeconds(delay);
-        Attack(character);
+        Attack(_IUnitManager);
     }
 
-    private void Attack(ICharacterManager character)
+    private void Attack(IUnitManager _IUnitManager)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorAttackParameter(true);
-        character.AttackHitBox.gameObject.SetActive(true);
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorAttackParameter(true);
+        _IUnitManager.AttackHitBox.gameObject.SetActive(true);
     }
 }

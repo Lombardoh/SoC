@@ -1,22 +1,22 @@
 using UnityEngine;
 public class CharacterStateManager : MonoBehaviour
 {
-    public ICharacterManager characterManager;
+    public IUnitManager _IUnitManager;
     public INPCManager _NPCManager;
     public  CharacterBaseState CurrentState { get; set; }
     public string currentStateString = string.Empty;
     public CharacterState CurrentStateType { get; set; }
     private void Awake()
     {
-        characterManager = GetComponent<ICharacterManager>();
+        _IUnitManager = GetComponent<IUnitManager>();
         _NPCManager = GetComponent<INPCManager>();
     }
 
     void Update()
     {
-        if (characterManager == null) return;
+        if (_IUnitManager == null) return;
         if (CurrentState == null) { OnStateChangeRequested(CharacterState.Idle); }
-        CurrentState.Update(characterManager);
+        CurrentState.Update(_IUnitManager);
     }
 
     public void OnStateChangeRequested(CharacterState newState)
@@ -25,9 +25,9 @@ public class CharacterStateManager : MonoBehaviour
         CurrentStateType = newState;
 
         CurrentState ??= StateFactory.CreateState(CharacterState.Idle);
-        CurrentState.OnExit(characterManager);
+        CurrentState.OnExit(_IUnitManager);
         CurrentState = StateFactory.CreateState(newState);
-        CurrentState.OnEnter(characterManager);
+        CurrentState.OnEnter(_IUnitManager);
     }
 
     public void OnSelectNextState(UnitTaskType task)
@@ -38,7 +38,7 @@ public class CharacterStateManager : MonoBehaviour
                 OnStateChangeRequested(CharacterState.Idle);
                 break;            
             case UnitTaskType.GoingToGather:
-                characterManager.Target = ResourceUtils.FindClosestResource(transform, _NPCManager.AssignedResource);
+                _IUnitManager.Target = ResourceUtils.FindClosestResource(transform, _NPCManager.AssignedResource);
                 _NPCManager.NextAssignedTask = UnitTaskType.Gathering;
                 OnStateChangeRequested(CharacterState.Following);
                 break;
@@ -46,7 +46,7 @@ public class CharacterStateManager : MonoBehaviour
                 OnStateChangeRequested(CharacterState.Working);
                 break;
             case UnitTaskType.GoingToDeposit:
-                characterManager.Target = UnitUtils.FindClosestTarget(transform, TagType.City);
+                _IUnitManager.Target = UnitUtils.FindClosestTarget(transform, TagType.City);
                 _NPCManager.NextAssignedTask = UnitTaskType.Depositing;
                 OnStateChangeRequested(CharacterState.Following);
                 break;           
@@ -54,11 +54,11 @@ public class CharacterStateManager : MonoBehaviour
                 OnStateChangeRequested(CharacterState.Depositing);
                 break;
             case UnitTaskType.Wandering:
-                if (characterManager.Target == null)
+                if (_IUnitManager.Target == null)
                 {
-                    GameObject assignedTarget = new(characterManager + " AssignedTarget");
-                    assignedTarget.transform.position = GameUtils.GetRandomPosition(characterManager.Transform.position, 10f, 15f);
-                    characterManager.Target = assignedTarget;
+                    GameObject assignedTarget = new(_IUnitManager + " AssignedTarget");
+                    assignedTarget.transform.position = GameUtils.GetRandomPosition(_IUnitManager.Transform.position, 10f, 15f);
+                    _IUnitManager.Target = assignedTarget;
                 }
                 OnStateChangeRequested(CharacterState.Idle);
                 Invoke(nameof(ChangeToFollowingState), 3f); ;
@@ -77,13 +77,13 @@ public class CharacterStateManager : MonoBehaviour
 
     private void ChangeToFollowingState()
     {
-        characterManager.Target.transform.position = GameUtils.GetRandomPosition(transform.position, 10f, 15f);
+        _IUnitManager.Target.transform.position = GameUtils.GetRandomPosition(transform.position, 10f, 15f);
         OnStateChangeRequested(CharacterState.Following);
     }
 
     public void AttackJustFinished()
     {
-        characterManager.Target.TryGetComponent<IDamageable>(out IDamageable damageable);
+        _IUnitManager.Target.TryGetComponent<IDamageable>(out IDamageable damageable);
         if (damageable != null) 
         {
             OnStateChangeRequested(CharacterState.Attacking);

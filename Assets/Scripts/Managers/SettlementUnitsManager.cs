@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Resources;
 using UnityEngine;
 
-public class SettlementUnitsManager : MonoBehaviour, IUnitManager
+public class SettlementUnitsManager : MonoBehaviour
 {
     public GameObject unitPrefab;
     public Transform spawnTransform;

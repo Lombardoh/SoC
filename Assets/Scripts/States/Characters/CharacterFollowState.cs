@@ -12,59 +12,59 @@ public class CharacterFollowState : CharacterBaseState
     private Path path;
     private INPCManager NPCManager { get; set; }
     Seeker seeker;
-    private void UpdatePath(Seeker seeker, ICharacterManager character)
+    private void UpdatePath(Seeker seeker, IUnitManager _IUnitManager)
     {
-        seeker.StartPath(character.Transform.position, character.TargetPosition, (p) => PathUtils.OnPathComplete(p, ref path, ref currentWaypoint, character));
+        seeker.StartPath(_IUnitManager.Transform.position, _IUnitManager.TargetPosition, (p) => PathUtils.OnPathComplete(p, ref path, ref currentWaypoint, _IUnitManager));
     }
-    public override void OnEnter(ICharacterManager character)
+    public override void OnEnter(IUnitManager _IUnitManager)
     {
-        if (character.Target == null && character.TargetPosition == null)
+        if (_IUnitManager.Target == null && _IUnitManager.TargetPosition == null)
         {
-            character.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);
+            _IUnitManager.CharacterStateManager.OnStateChangeRequested(CharacterState.Idle);
             return;
         }
 
-        NPCManager = character as INPCManager;
-        seeker = (character as MonoBehaviour).GetComponent<Seeker>();
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(true);
+        NPCManager = _IUnitManager as INPCManager;
+        seeker = (_IUnitManager as MonoBehaviour).GetComponent<Seeker>();
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorMovementParameter(true);
     }
-    public override void OnExit(ICharacterManager character)
+    public override void OnExit(IUnitManager _IUnitManager)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
     }
-    public override void Update(ICharacterManager character)
+    public override void Update(IUnitManager _IUnitManager)
     {
         if (path == null || path.vectorPath == null || currentWaypoint > path.vectorPath.Count)
         {
             if(NPCManager.AssignedTask == UnitTaskType.Wandering)
             {
-                character.CharacterStateManager.OnSelectNextState(NPCManager.AssignedTask);
+                _IUnitManager.CharacterStateManager.OnSelectNextState(NPCManager.AssignedTask);
             }
             return;
         }
 
         if (Time.time - lastPathUpdateTime > pathUpdateInterval)
         {
-           UpdatePath(seeker, character); 
+           UpdatePath(seeker, _IUnitManager); 
         }
 
         Vector3 flattenedPathPoint = new(path.vectorPath[currentWaypoint].x, 0, path.vectorPath[currentWaypoint].z);
-        float distanceToWaypoint = Vector3.Distance(character.Transform.position, flattenedPathPoint);
+        float distanceToWaypoint = Vector3.Distance(_IUnitManager.Transform.position, flattenedPathPoint);
         if (distanceToWaypoint < changeWaypointDistance)
         {
             currentWaypoint++;
-            character.NextPathPoint = path.vectorPath[currentWaypoint];
+            _IUnitManager.NextPathPoint = path.vectorPath[currentWaypoint];
         }
 
-        Vector3 flattenedTargetPosition = new Vector3(character.TargetPosition.x, 0, character.TargetPosition.z);
-        float distanceToTarget = Vector3.Distance(character.Transform.position, flattenedTargetPosition);
+        Vector3 flattenedTargetPosition = new(_IUnitManager.TargetPosition.x, 0, _IUnitManager.TargetPosition.z);
+        float distanceToTarget = Vector3.Distance(_IUnitManager.Transform.position, flattenedTargetPosition);
         if (distanceToTarget < arrivalDistance)
         {
-            character.CharacterStateManager.OnSelectNextState(NPCManager.NextAssignedTask);
+            _IUnitManager.CharacterStateManager.OnSelectNextState(NPCManager.NextAssignedTask);
             return;
         }
 
-        Vector3 direction = (flattenedPathPoint - character.Transform.position).normalized;
-        character.CharacterController.Move(Time.deltaTime * 5f * direction);
+        Vector3 direction = (flattenedPathPoint - _IUnitManager.Transform.position).normalized;
+        _IUnitManager.CharacterController.Move(Time.deltaTime * 5f * direction);
     }
 }

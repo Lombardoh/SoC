@@ -6,9 +6,9 @@ public class WeaponManager : MonoBehaviour
     {
         if (other == null) return;
 
-        if (other.TryGetComponent<IDamageable>(out var characterManager))
+        if (other.TryGetComponent<IDamageable>(out var _IUnitManager))
         {
-            characterManager.TakeDamage();
+            _IUnitManager.TakeDamage();
         }
     }
 }

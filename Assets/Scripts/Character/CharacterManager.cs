@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, ITickListener, ICombatable
+public class UnitManager : MonoBehaviour, IUnitManager, IDamageable, ITickListener, ICombatable
 {
-    protected Character character;
+    protected Unit unit;
     [SerializeField] private GameObject target;
     public GameObject Target { get { return target; } set { target = value; } }
     public Vector3 TargetPosition { get { return Target.transform.position; }}
@@ -27,14 +27,14 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     }
     protected virtual void Start()
     {
-        character = new(0,20);
+        unit = new(0,20);
         
     }
     protected virtual void Update()
     {
         if (LockedInAnimation) { return; }
         CharacterLocomotionManager.HandleAllMovement();
-        resource = character.ResourceAmount; //remove this once character have their own resource panels
+        resource = unit.ResourceAmount; //remove this once character have their own resource panels
     }
     protected virtual void LateUpdate()
     {
@@ -57,11 +57,11 @@ public class CharacterManager : MonoBehaviour, ICharacterManager, IDamageable, I
     }
     public void EmptyResource()
     {
-        character.ResourceAmount = 0;
+        unit.ResourceAmount = 0;
     }       
     public int GetResourceAmount()
     {
-        return character.ResourceAmount;
+        return unit.ResourceAmount;
     }
     public void StartCombat()
     {

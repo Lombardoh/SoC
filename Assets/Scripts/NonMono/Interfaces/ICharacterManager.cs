@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ICharacterManager
+public interface IUnitManager
 {
     public GameObject Target { get; set; }
     public Vector3 TargetPosition { get { return Target.transform.position; } }

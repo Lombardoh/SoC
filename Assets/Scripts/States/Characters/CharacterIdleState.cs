@@ -1,14 +1,14 @@
 public class CharacterIdleState : CharacterBaseState
 {
-    public override void OnEnter(ICharacterManager character)
+    public override void OnEnter(IUnitManager _IUnitManager)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorMovementParameter(false);
     }
-    public override void OnExit(ICharacterManager character)
+    public override void OnExit(IUnitManager _IUnitManager)
     {
     }
 
-    public override void Update(ICharacterManager character)
+    public override void Update(IUnitManager _IUnitManager)
     {
     }
 }

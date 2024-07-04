@@ -1,4 +1,4 @@
-public class PlayerManager : CharacterManager
+public class PlayerManager : UnitManager
 {
     protected override void Awake()
     {

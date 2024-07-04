@@ -3,19 +3,19 @@ using UnityEngine;
 public class CharacterDyingState : CharacterBaseState
 {
     IDamageable damageable;
-    public override void OnEnter(ICharacterManager character)
+    public override void OnEnter(IUnitManager _IUnitManager)
     {
-        damageable = character.Transform.GetComponent<IDamageable>();
-        character.CharacterAnimatorManager.UpdateAnimatorIsDyingParameter(true);
-        character.Transform.GetComponent<MonoBehaviour>().Invoke(nameof(Dispose), 5f);
+        damageable = _IUnitManager.Transform.GetComponent<IDamageable>();
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorIsDyingParameter(true);
+        _IUnitManager.Transform.GetComponent<MonoBehaviour>().Invoke(nameof(Dispose), 5f);
     }
 
-    public override void OnExit(ICharacterManager character)
+    public override void OnExit(IUnitManager _IUnitManager)
     {
-        character.CharacterAnimatorManager.UpdateAnimatorIsDyingParameter(false);
+        _IUnitManager.CharacterAnimatorManager.UpdateAnimatorIsDyingParameter(false);
     }
 
-    public override void Update(ICharacterManager character)
+    public override void Update(IUnitManager _IUnitManager)
     {
     }
 
